@@ -1,1 +1,98 @@
-<p>create-customer works!</p>
+<div class="container">
+  <form [formGroup]="formGroup">
+    <h1>Create User</h1>
+    <div fxLayout="row" fxLayoutGap="20px" fxLayout.xs="column">
+      <div fxLayout="column">
+        <mat-form-field appearance="outline" class="field">
+          <mat-label>First Name</mat-label>
+          <input matInput formControlName="firstName" id="firstName" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="field">
+          <mat-label>Last Name</mat-label>
+          <input matInput formControlName="lastName" id="lastName" />
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="column">
+        <mat-form-field appearance="outline" class="field">
+          <mat-label>User Type</mat-label>
+          <mat-select formControlName="userType" id="userType" class="small-input">
+            <mat-option value="CUSTOMER">Customer</mat-option>
+            <mat-option value="AGENT">Agent</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="field">
+          <mat-label>Date Of Birth</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="dateOfBirth" id="dateOfBirth" [max]="today" />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="formGroup.controls['dateOfBirth'].hasError('max')">Invalid date</mat-error>
+        </mat-form-field>
+        
+        
+      </div>
+
+      <div fxLayout="column">
+        <mat-form-field appearance="outline" class="field">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" id="email" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="field">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" formControlName="password" id="password" />
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+
+  <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">
+    <button mat-raised-button color="primary" (click)="createCustomer()" id="createCustomerBtn">Signup</button>
+    <button mat-raised-button color="primary" routerLink="/login">Login</button>
+  </div>
+
+  <br />
+
+  <div *ngIf="createCustomerAPIResponse">{{ createCustomerAPIResponse }}</div>
+</div>
+
+<div class="container" *ngIf="allCustomersList.length > 0">
+  <h1>List of all Customers</h1>
+  <table mat-table [dataSource]="allCustomersList" class="mat-elevation-z8">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef class="center"> ID </th>
+      <td mat-cell *matCellDef="let customer"> {{ customer.id }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="firstName">
+      <th mat-header-cell *matHeaderCellDef class="center"> First Name </th>
+      <td mat-cell *matCellDef="let customer"> {{ customer.firstName }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="lastName">
+      <th mat-header-cell *matHeaderCellDef class="center"> Last Name </th>
+      <td mat-cell *matCellDef="let customer"> {{ customer.lastName }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="dateOfBirth">
+      <th mat-header-cell *matHeaderCellDef class="center"> Date of Birth </th>
+      <td mat-cell *matCellDef="let customer"> {{ customer.dateOfBirth | date: 'dd-MM-yyyy' }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef class="center"> Email </th>
+      <td mat-cell *matCellDef="let customer"> {{ customer.email }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="userType">
+      <th mat-header-cell *matHeaderCellDef class="center"> User Type </th>
+      <td mat-cell *matCellDef="let customer"> {{ customer.userType }} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let customer; columns: displayedColumns;"></tr>
+  </table>
+</div>
+
