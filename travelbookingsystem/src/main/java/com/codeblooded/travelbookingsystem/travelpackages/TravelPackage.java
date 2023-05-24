@@ -20,4 +20,6 @@ public class TravelPackage {
     private String destinationCountry;
     private int noOfDays;
     private PackageType packageType;
+    private int flightId;
+    private List<HotelDaysWithId> hotelDaysWithId;
 }
