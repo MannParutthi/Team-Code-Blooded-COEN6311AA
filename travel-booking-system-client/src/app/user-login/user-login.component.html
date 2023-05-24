@@ -1,1 +1,36 @@
-<p>user-login works!</p>
+<div class="container">
+    <form [formGroup]="formGroup">
+      <h1>User Login</h1>
+      <div fxLayout="row" fxLayout.xs="column" class="form-fields">
+        <mat-form-field appearance="outline" class="field">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" id="email" />
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="field">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" formControlName="password" id="password" />
+        </mat-form-field>
+      </div>
+
+      <div class="button-container">
+        <div class="button-group">
+          <button mat-raised-button color="primary" class="auth-button" (click)="loginUser()" id="loginUserBtn">
+            Login
+          </button>
+    
+          <div class="button-spacing"></div> <!-- Add this div for spacing -->
+    
+          <button mat-raised-button color="primary" class="auth-button" routerLink="/create-user">
+            Signup
+          </button>
+        </div>
+      </div>
+    </form>
+  
+    
+  
+    <br>
+    <div *ngIf="loginAPIResponse">{{ loginAPIResponse }}</div>
+  </div>
+  

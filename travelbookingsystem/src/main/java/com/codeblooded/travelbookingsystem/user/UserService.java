@@ -39,6 +39,15 @@ public class UserService {
         return USER_CREATED_SUCCESSFULLY;
     }
 
+    public User loginUser(UserProfile userProfile) {
+        for (User user: getAllUsers()) {
+            if (user.getEmail().equals(userProfile.getEmail()) && user.getPassword().equals(userProfile.getPassword())) {
+                return user;
+            }
+        }
+        return null;
+    }
+
     public List<User> getAllUsers() {
         return users;
     }

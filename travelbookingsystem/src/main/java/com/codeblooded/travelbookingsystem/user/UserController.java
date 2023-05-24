@@ -25,6 +25,13 @@ public class UserController {
         return new ResponseEntity<String>(response, HttpStatus.CREATED);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<User> loginUser(@RequestBody UserProfile userProfile) {
+        User user = userService.loginUser(userProfile);
+        return new ResponseEntity<User>(user, HttpStatus.OK);
+    }
+
+
     @GetMapping("/all")
     public ResponseEntity<Iterable<User>> getAllUsers() {
         return new ResponseEntity<Iterable<User>>(userService.getAllUsers(), HttpStatus.OK);

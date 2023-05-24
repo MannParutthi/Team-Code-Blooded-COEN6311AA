@@ -1,1 +1,11 @@
-<p>home-page works!</p>
+<div class="centeredContent">
+
+  <div style="width: 100%; background-color: burlywood; padding: 1%;" mat-line>
+    Hello {{ loggedUser.firstName | uppercase }}
+  </div>
+  <br>
+
+  <button *ngIf=" loggedUser != null " mat-raised-button color="primary" style="margin: 20px" (click)="logout()">
+    Logout
+  </button>
+</div>
