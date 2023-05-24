@@ -1,1 +1,34 @@
-<p>create-travel-package works!</p>
+<div class="container">
+    <form [formGroup]="formGroup">
+      <h1>Create Package</h1>
+      <div fxLayout="column">
+
+        <mat-form-field appearance="outline" class="field">
+          <mat-label>Destination City</mat-label>
+          <mat-select formControlName="destinationCity" id="destinationCity" class="small-input" (selectionChange)="filterHotelAndFlights($event.value)">
+            <mat-option value="Toronto">Toronto</mat-option>
+            <mat-option value="Vancouver">Vancouver</mat-option>
+            <mat-option value="Montreal">Montreal</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="field">
+          <mat-label>Destination Country</mat-label>
+          <mat-select formControlName="destinationCountry" id="destinationCountry" class="small-input">
+            <mat-option value="Canada">Canada</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="field">
+          <mat-label>No. of Days</mat-label>
+          <input matInput type="number" formControlName="noOfDays" id="noOfDays" class="small-input" />
+        </mat-form-field>
+      </div>
+    </form>
+
+    <button mat-raised-button color="primary" (click)="createPackage()" id="createPackageBtn">Create Package</button>
+
+    <br />
+
+    <div *ngIf="createPackageAPIResponse !== undefined">{{ createPackageAPIResponse }}</div>
+  </div>
