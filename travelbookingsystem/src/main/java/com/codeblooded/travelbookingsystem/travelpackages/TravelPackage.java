@@ -19,7 +19,9 @@ public class TravelPackage {
     private String destinationCity;
     private String destinationCountry;
     private int noOfDays;
+    private int price;
     private PackageType packageType;
     private int flightId;
+    private List<Integer> activityIdsIncluded;
     private List<HotelDaysWithId> hotelDaysWithId;
 }
