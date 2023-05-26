@@ -1,6 +1,5 @@
 package com.codeblooded.travelbookingsystem.user;
 
-import com.codeblooded.travelbookingsystem.service.EmailService;
 import com.codeblooded.travelbookingsystem.travelpackages.TravelPackage;
 import com.codeblooded.travelbookingsystem.travelpackages.TravelPackageService;
 import org.springframework.beans.factory.annotation.Autowired;
