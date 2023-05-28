@@ -58,6 +58,24 @@ public class TravelPackageService {
                 travelPackage.getHotelDaysWithId()));
         return PKG_CREATED_SUCCESSFULLY;
     }
+
+    public String updateTravelPackage(int travelPackageId, TravelPackage travelPackage) {
+        for(TravelPackage tp : packages) {
+            if(tp.getId() == travelPackageId) {
+                tp.setDestinationCity(travelPackage.getDestinationCity());
+                tp.setDestinationCountry(travelPackage.getDestinationCountry());
+                tp.setNoOfDays(travelPackage.getNoOfDays());
+                tp.setPrice(travelPackage.getPrice());
+                tp.setPackageType(travelPackage.getPackageType());
+                tp.setFlightId(travelPackage.getFlightId());
+                tp.setActivityIdsIncluded(travelPackage.getActivityIdsIncluded());
+                tp.setHotelDaysWithId(travelPackage.getHotelDaysWithId());
+                return TravelPackageService.PKG_UPDATED_SUCCESSFULLY;
+            }
+        }
+        return TravelPackageService.TRAVEL_PACKAGE_NOT_FOUND;
+    }
+
     public List<TravelPackage> getAllTravelPackages() {
         return packages;
     }
