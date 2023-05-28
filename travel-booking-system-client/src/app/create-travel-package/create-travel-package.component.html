@@ -24,6 +24,26 @@
           <input matInput type="number" formControlName="noOfDays" id="noOfDays" class="small-input" />
         </mat-form-field>
       </div>
+
+        <mat-form-field appearance="outline" class="field">
+          <mat-label>Flight</mat-label>
+          <mat-select formControlName="flightId" id="flightId" class="small-input">
+            <mat-option *ngFor="let flight of allFlightsList" [value]="flight.id">
+              {{ flight.source }} to {{ flight.destination }} - ${{ flight.pricePerSeat }} ({{ flight.airline }})
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="field">
+          <mat-label>Activities Included</mat-label>
+          <mat-select formControlName="activityIdsIncluded" id="activityIdsIncluded" class="small-input" multiple>
+            <mat-option *ngFor="let activity of allActivitiesList" [value]="activity.id">
+              {{ activity.name }} - ${{ activity.pricePerPerson }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
     </form>
 
     <button mat-raised-button color="primary" (click)="createPackage()" id="createPackageBtn">Create Package</button>

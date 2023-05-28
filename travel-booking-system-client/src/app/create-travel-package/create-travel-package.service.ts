@@ -13,4 +13,12 @@ export class CreateTravelPackageService {
   createPackage(touristpackage: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/tourist-packages/create`, touristpackage, { responseType: 'text' }) as Observable<any>;
   }
+
+  getAllFlights(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/flights/all`) as Observable<any>;
+  }
+
+  getAllHotels(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/hotels/all`) as Observable<any>;
+  }
 }
