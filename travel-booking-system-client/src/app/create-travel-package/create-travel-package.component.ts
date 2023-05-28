@@ -8,26 +8,39 @@ import { CreateTravelPackageService } from './create-travel-package.service';
   styleUrls: ['./create-travel-package.component.scss']
 })
 export class CreateTravelPackageComponent implements OnInit {
-  
+
   allFlightsList: any[] = [];
   allHotelsList: any[] = [];
+  allActivitiesList: any[] = [];
   unFilteredHotelsList: any[] = [];
   unFilteredFlightsList: any[] = [];
-  
+
   formGroup: FormGroup = this.formBuilder.group({
     destinationCity: [null, []],
     destinationCountry: [null, []],
     noOfDays: [0, []],
+    price: [0, []],
     packageType: ['CUSTOM', []],
     flightId: [null, []],
+    activityIdsIncluded: [[], []],
     hotelDaysWithId: this.formBuilder.array([])
   });
 
   createPackageAPIResponse: any;
 
+  allPackagesList: any[] = [];
+
+  displayedColumns: string[] = ['id', 'destination', 'noOfDays', 'flight', 'hotel', 'activitiesIncluded', 'price'];
+
   constructor(private formBuilder: FormBuilder, private packageService: CreateTravelPackageService) { }
 
   ngOnInit(): void {
+
+    this.getAllPackages();
+    this.getAllFlights();
+    this.getAllHotels();
+    this.getAllActivities();
+    this.addHotelDaysWithId();
   }
 
   createPackage() {
@@ -37,7 +50,62 @@ export class CreateTravelPackageComponent implements OnInit {
     this.packageService.createPackage(payload).subscribe((res) => {
       this.createPackageAPIResponse = res;
       console.log("createPackageAPIResponse ==> " + this.createPackageAPIResponse);
+      this.getAllPackages();
     });
+  }
+
+  getAllPackages() {
+    this.packageService.getAllPackages().subscribe((res) => {
+      this.allPackagesList = res;
+      console.log("getAllPackages ==> " + JSON.stringify(res));
+    });
+  }
+
+  getAllFlights() {
+    this.packageService.getAllFlights().subscribe((res) => {
+      this.allFlightsList = res;
+      this.unFilteredFlightsList = res;
+      console.log("getAllFlights ==> " + res);
+    });
+  }
+
+  getAllHotels() {
+    this.packageService.getAllHotels().subscribe((res) => {
+      this.allHotelsList = res;
+      this.unFilteredHotelsList = res;
+      console.log("getAllHotels ==> " + res);
+    });
+  }
+
+  getAllActivities() {
+    this.packageService.getAllActivities().subscribe((res) => {
+      this.allActivitiesList = res;
+      console.log("getAllActivities ==> " + res);
+    });
+  }
+
+  filterHotelAndFlights(destinationCity: string) {
+    this.allHotelsList = this.unFilteredHotelsList.filter((hotel) => hotel.location === destinationCity);
+    this.allFlightsList = this.unFilteredFlightsList.filter((flight) => flight.destination === destinationCity);
+  }
+
+  getPackagePrice() {
+    let price = 0;
+
+    this.formGroup.getRawValue().hotelDaysWithId.forEach((h: any) => {
+      let priceForThisHotel = this.unFilteredHotelsList.find((hotel) => hotel.id === h.hotelId)?.pricePerRoom;
+      price += (priceForThisHotel ? priceForThisHotel : 0) * (h.noOfDays ? h.noOfDays : 0);
+    });
+
+    let flightPrice = this.unFilteredFlightsList.find((flight) => flight.id === this.formGroup.getRawValue().flightId)?.pricePerSeat;
+    price += (flightPrice ? flightPrice : 0);
+
+    this.formGroup.getRawValue().activityIdsIncluded.forEach((activityId: any) => {
+      let activityPrice = this.allActivitiesList.find((activity) => activity.id === activityId)?.pricePerPerson;
+      price += activityPrice;
+    });
+
+    this.formGroup.patchValue({price: price});
   }
 
   get hotelDaysWithId() {
@@ -102,6 +170,11 @@ export class CreateTravelPackageComponent implements OnInit {
     else {
       return hotel.name + ' - $' + hotel.pricePerRoom + ' (' + noOfDays + ' days)' + ' - ★★★★★';
     }
+  }
+
+  getActivityDetails(activityId: any) {
+    let activity = this.allActivitiesList.find((activity) => activity.id === activityId);
+    return activity.name + ' - $' + activity.pricePerPerson;
   }
 
 }
