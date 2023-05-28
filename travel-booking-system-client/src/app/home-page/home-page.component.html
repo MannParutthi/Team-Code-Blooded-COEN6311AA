@@ -5,7 +5,19 @@
   </div>
   <br>
 
+  <button mat-raised-button color="primary" style="margin: 20px" routerLink="/create-travel-package">
+    Create Travel Package
+  </button>
+
+  <button *ngIf="loggedUser.userType != 'CUSTOMER'" mat-raised-button color="primary" style="margin: 20px" routerLink="/update-travel-package">
+    Manage Travel Package
+  </button>
+
+  <button mat-raised-button color="primary" style="margin: 20px" routerLink="/search-travel-package">
+    Search Travel Package
+  </button>
+
   <button *ngIf=" loggedUser != null " mat-raised-button color="primary" style="margin: 20px" (click)="logout()">
     Logout
-  </button>
+ </button>
 </div>
