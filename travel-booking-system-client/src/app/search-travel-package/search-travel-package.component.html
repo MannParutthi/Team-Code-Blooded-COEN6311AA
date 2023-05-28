@@ -1,1 +1,61 @@
-<p>search-travel-package works!</p>
+<div class="container">
+  <div>
+    <h1>Search Travel Package</h1>
+    <mat-form-field appearance="outline" class="field">
+      <mat-label>Filter By City</mat-label>
+      <mat-select [(ngModel)]="destinationCity" class="small-input" (selectionChange)="selectedDestinationCity()">
+        <mat-option value="Toronto">Toronto</mat-option>
+        <mat-option value="Vancouver">Vancouver</mat-option>
+        <mat-option value="Montreal">Montreal</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div *ngIf="allPackagesList.length > 0 && allFlightsList.length > 0 && allHotelsList.length > 0 && allActivitiesList.length > 0">
+    <h1>List of all Packages</h1>
+
+    <table mat-table [dataSource]="allPackagesList" class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef> Package Id </th>
+          <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="destination">
+          <th mat-header-cell *matHeaderCellDef> Destination </th>
+          <td mat-cell *matCellDef="let element"> {{element.destinationCity}}, {{element.destinationCountry}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="noOfDays">
+          <th mat-header-cell *matHeaderCellDef>No of Days</th>
+          <td mat-cell *matCellDef="let element"> {{element.noOfDays}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="flight">
+          <th mat-header-cell *matHeaderCellDef>Flight</th>
+          <td mat-cell *matCellDef="let element"> {{ getFlightDetails(element.flightId) }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="hotel">
+          <th mat-header-cell *matHeaderCellDef>Hotel</th>
+          <td mat-cell *matCellDef="let element">
+            <div *ngFor="let hotel of element.hotelDaysWithId">{{ getHotelDetails(hotel.hotelId, hotel.noOfDays) }}</div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="activitiesIncluded">
+          <th mat-header-cell *matHeaderCellDef>Activities</th>
+          <td mat-cell *matCellDef="let element">
+            <div *ngFor="let activityId of element.activityIdsIncluded">{{ getActivityDetails(activityId) }}</div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef>Price</th>
+          <td mat-cell *matCellDef="let element"> ${{element.price}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+  </div>
+</div>
