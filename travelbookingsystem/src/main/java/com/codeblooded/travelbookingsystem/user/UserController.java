@@ -1,7 +1,5 @@
 package com.codeblooded.travelbookingsystem.user;
 
-import com.codeblooded.travelbookingsystem.travelpackages.TravelPackage;
-import com.codeblooded.travelbookingsystem.travelpackages.TravelPackageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,27 +10,62 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/customers")
 public class UserController {
     @Autowired
-    private UserService userService;
+    private UserRepository userRepository;
 
     @PostMapping("/create")
     public ResponseEntity<String> createUser(@RequestBody User user) {
-        String response = userService.createUser(user);
-        if(response == UserService.USER_ALREADY_EXISTS) {
-            return new ResponseEntity<String>(response, HttpStatus.OK);
+        if (userRepository.existsByEmail(user.getEmail())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(UserService.USER_ALREADY_EXISTS);
         }
 
-        return new ResponseEntity<String>(response, HttpStatus.CREATED);
+        User createdUser = userRepository.save(user);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(UserService.USER_CREATED_SUCCESSFULLY);
+    }
+
+    @PutMapping("/update/{userId}")
+    public ResponseEntity<String>updateUserProfile(@PathVariable("userId") Long userId,
+                                                   @RequestBody User user) {
+
+        User existingUser = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+
+        existingUser.setFirstName(user.getFirstName());
+        existingUser.setLastName(user.getLastName());
+        existingUser.setDateOfBirth(user.getDateOfBirth());
+        existingUser.setEmail(user.getEmail());
+        existingUser.setPassword(user.getPassword());
+        existingUser.setUserType(user.getUserType());
+
+        userRepository.save(existingUser);
+        return ResponseEntity.ok(UserService.USER_UPDATED_SUCCESSFULLY);
     }
 
     @PostMapping("/login")
     public ResponseEntity<User> loginUser(@RequestBody UserProfile userProfile) {
-        User user = userService.loginUser(userProfile);
-        return new ResponseEntity<User>(user, HttpStatus.OK);
-    }
+        User user = userRepository.findByEmailAndPassword(
+                userProfile.getEmail(),
+                userProfile.getPassword());
 
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
 
     @GetMapping("/all")
     public ResponseEntity<Iterable<User>> getAllUsers() {
-        return new ResponseEntity<Iterable<User>>(userService.getAllUsers(), HttpStatus.OK);
+        Iterable<User> users = userRepository.findAll();
+        return ResponseEntity.ok(users);
+    }
+
+
+    // Custom Exception Classes
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public static class UserNotFoundException extends RuntimeException {
+        public UserNotFoundException() {
+            super(UserService.USER_NOT_FOUND);
+        }
     }
 }
