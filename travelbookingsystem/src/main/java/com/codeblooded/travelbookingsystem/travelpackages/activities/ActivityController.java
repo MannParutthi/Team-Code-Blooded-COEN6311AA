@@ -1,12 +1,8 @@
 package com.codeblooded.travelbookingsystem.travelpackages.activities;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -14,10 +10,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class ActivityController {
 
     @Autowired
-    private ActivityService activityService;
+    private ActivityRepository activityRepository;
+
+    @Autowired
+    public ActivityController(ActivityRepository activityRepository) {
+        this.activityRepository = activityRepository;
+    }
+
+    @PostMapping("/create")
+    public Activity createActivity(@RequestBody Activity activity) {
+        return activityRepository.save(activity);
+    }
 
     @GetMapping("/all")
     public ResponseEntity<Iterable<Activity>> getAllActivities() {
-        return new ResponseEntity<Iterable<Activity>>(activityService.getAllActivities(), HttpStatus.OK);
+        Iterable<Activity> activities = activityRepository.findAll();
+        return ResponseEntity.ok(activities);
     }
 }

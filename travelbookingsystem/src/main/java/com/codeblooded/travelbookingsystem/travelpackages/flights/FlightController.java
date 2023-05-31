@@ -1,12 +1,8 @@
 package com.codeblooded.travelbookingsystem.travelpackages.flights;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -14,10 +10,22 @@ import org.springframework.web.bind.annotation.RestController;
 public class FlightController {
 
     @Autowired
-    private FlightService flightService;
+    private FlightRepository flightRepository;
+
+    @Autowired
+    public FlightController(FlightRepository flightRepository) {
+        this.flightRepository = flightRepository;
+    }
+
+    @PostMapping("/create")
+    public Flight createFlight(@RequestBody Flight flight) {
+        return flightRepository.save(flight);
+    }
 
     @GetMapping("/all")
     public ResponseEntity<Iterable<Flight>> getAllFlights() {
-        return new ResponseEntity<Iterable<Flight>>(flightService.getAllFlights(), HttpStatus.OK);
+        Iterable<Flight> flights = flightRepository.findAll();
+        return ResponseEntity.ok(flights);
     }
+
 }
