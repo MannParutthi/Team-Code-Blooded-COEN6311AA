@@ -13,6 +13,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTableModule } from '@angular/material/table';
 import { MatListModule } from '@angular/material/list';
 import { HttpClientModule } from '@angular/common/http';
+import { UpdateBookingComponent } from './update-booking/update-booking.component';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -35,7 +36,8 @@ import { UpdateProfileComponent } from './update-profile/update-profile.componen
     CreateTravelPackageComponent,
     UpdateTravelPackageComponent,
     SearchTravelPackageComponent,
-    UpdateProfileComponent
+    UpdateProfileComponent,
+    UpdateBookingComponent,
   ],
   imports: [
     BrowserModule,
