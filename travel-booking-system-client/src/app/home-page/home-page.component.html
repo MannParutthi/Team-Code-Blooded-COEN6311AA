@@ -17,7 +17,29 @@
     Search Travel Package
   </button>
 
+  <button mat-raised-button color="primary" style="margin: 20px" routerLink="/create-booking">
+    Create Booking
+  </button>
+
+  <button mat-raised-button color="primary" style="margin: 20px" routerLink="/update-booking">
+    Update Booking
+  </button>
+  
+  <button mat-raised-button color="primary" style="margin: 20px" routerLink="/view-booking">
+    View Booking
+  </button>
+
+  <button *ngIf="loggedUser.userType != 'CUSTOMER'" mat-raised-button color="primary" style="margin: 20px" routerLink="/get-report">
+    Get Report
+  </button>
+
+  <br><br>
+
+  <button mat-raised-button color="primary" style="margin: 20px" routerLink="/update-profile">
+    Update Profile
+  </button>
+
   <button *ngIf=" loggedUser != null " mat-raised-button color="primary" style="margin: 20px" (click)="logout()">
     Logout
- </button>
+  </button>
 </div>
