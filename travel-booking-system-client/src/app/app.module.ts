@@ -26,12 +26,9 @@ import { GetReportComponent } from './get-report/get-report.component';
 import { UpdateBookingComponent } from './update-booking/update-booking.component';
 import { UpdateTravelPackageComponent } from './update-travel-package/update-travel-package.component';
 import { UserLoginComponent } from './user-login/user-login.component';
-import { PaymentComponent } from './payment/payment.component';
 import { UpdateProfileComponent } from './update-profile/update-profile.component';
 import { SearchTravelPackageComponent } from './search-travel-package/search-travel-package.component';
 import { ViewBookingComponent } from './view-booking/view-booking.component';
-
-
 
 @NgModule({
   declarations: [
@@ -40,12 +37,11 @@ import { ViewBookingComponent } from './view-booking/view-booking.component';
     CreateCustomerComponent,
     CreateTravelPackageComponent,
     CreateBookingComponent,
-    GetReportComponent,
     UpdateBookingComponent,
     UpdateTravelPackageComponent,
     UserLoginComponent,
-    PaymentComponent,
     UpdateProfileComponent,
+    GetReportComponent,
     SearchTravelPackageComponent,
     ViewBookingComponent
   ],
