@@ -25,6 +25,7 @@ import { CreateTravelPackageComponent } from './create-travel-package/create-tra
 import { UpdateTravelPackageComponent } from './update-travel-package/update-travel-package.component';
 import { SearchTravelPackageComponent } from './search-travel-package/search-travel-package.component';
 import { UpdateProfileComponent } from './update-profile/update-profile.component';
+import { GetReportComponent } from './get-report/get-report.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,7 @@ import { UpdateProfileComponent } from './update-profile/update-profile.componen
     SearchTravelPackageComponent,
     UpdateProfileComponent,
     CreateBookingComponent,
-
+    GetReportComponent,
   ],
   imports: [
     BrowserModule,
