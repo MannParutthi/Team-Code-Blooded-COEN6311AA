@@ -1,1 +1,50 @@
-<p>update-profile works!</p>
+<div class="container" *ngIf="!!loggedUser">
+    <h1>Update Profile</h1>
+
+    <form [formGroup]="formGroup">
+        <div>
+            <mat-form-field appearance="outline" class="field">
+                <mat-label>User Id</mat-label>
+                <input matInput type="number" id="userId" class="small-input" [value]="loggedUser.id" readonly />
+            </mat-form-field>
+
+            <br>
+
+            <mat-form-field appearance="outline" class="field">
+                <mat-label>First Name</mat-label>
+                <input matInput formControlName="firstName" id="firstName" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="field">
+                <mat-label>Last Name</mat-label>
+                <input matInput formControlName="lastName" id="lastName" />
+            </mat-form-field>
+
+            <br>
+
+            <mat-form-field appearance="outline" class="field">
+                <mat-label>Date Of Birth</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="dateOfBirth" id="dateOfBirth" />
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="field">
+                <mat-label>Email</mat-label>
+                <input matInput type="email" id="email" [value]="loggedUser.email" readonly />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="field">
+                <mat-label>User Type</mat-label>
+                <input matInput type="text" id="userType" [value]="loggedUser.userType" readonly />
+            </mat-form-field>
+
+        </div>
+    </form>
+
+    <button mat-raised-button color="primary" (click)="updateProfile()" id="updateProfileBtn">Update Profile</button>
+
+    <br />
+
+    <div *ngIf="updateProfileAPIResponse !== undefined">{{ updateProfileAPIResponse }}</div>
+</div>

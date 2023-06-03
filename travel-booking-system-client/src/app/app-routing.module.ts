@@ -7,6 +7,9 @@ import { CreateTravelPackageComponent } from './create-travel-package/create-tra
 import { UpdateTravelPackageComponent } from './update-travel-package/update-travel-package.component';
 import { SearchTravelPackageComponent } from './search-travel-package/search-travel-package.component';
 import { UpdateProfileComponent } from './update-profile/update-profile.component';
+import { CreateBookingComponent } from './create-booking/create-booking.component';
+import { UpdateBookingComponent } from './update-booking/update-booking.component';
+import { GetReportComponent } from './get-report/get-report.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -16,6 +19,9 @@ const routes: Routes = [
   { path: "create-travel-package", component: CreateTravelPackageComponent },
   { path: "update-travel-package", component: UpdateTravelPackageComponent },
   { path: "search-travel-package", component: SearchTravelPackageComponent },
+  { path: "create-booking", component: CreateBookingComponent },
+  { path: "update-booking", component: UpdateBookingComponent },
+  { path: "get-report", component: GetReportComponent },
   { path: "update-profile", component: UpdateProfileComponent },
   { path: "**", redirectTo: 'home' }
 ];
