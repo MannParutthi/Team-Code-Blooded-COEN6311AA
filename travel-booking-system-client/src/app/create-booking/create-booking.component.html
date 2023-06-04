@@ -1,0 +1,91 @@
+<div class="container" *ngIf="allCustomersList.length == 0">
+  <h1 class="centeredText"> No Customer Exists !!! </h1>
+</div>
+
+<div class="container" *ngIf="allTravelPackagesList.length == 0">
+  <h1 class="centeredText"> No Travel Packages Exists !!! </h1>
+</div>
+
+<div class="container" *ngIf="allCustomersList.length > 0 && allTravelPackagesList.length > 0">
+  <form [formGroup]="formGroup">
+    <h1>Create Booking</h1>
+    <div fxLayout="row" fxLayout.xs="column">
+      <ng-container *ngIf="loggedUser.userType != 'CUSTOMER'; else elseTemplate">
+        <mat-form-field appearance="outline" class="field">
+          <mat-label>Customer Id</mat-label>
+          <mat-select formControlName="customerId" id="customerId">
+            <mat-option *ngFor="let user of allCustomersList" [value]="user.id">{{user.id}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
+      <ng-template #elseTemplate>
+        <mat-form-field appearance="outline" class="field">
+          <mat-label>Customer Id</mat-label>
+          <input matInput formControlName="customerId" id="customerId" [(ngModel)]="loggedUser.id" readonly>
+        </mat-form-field>
+      </ng-template>
+
+      <br>
+
+      <mat-form-field appearance="outline" class="field">
+        <mat-label>Travel Package Id</mat-label>
+        <mat-select formControlName="travelPackageId" id="travelPackageId">
+          <mat-option *ngFor="let package of allTravelPackagesList" [value]="package.id">{{package.id}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <br>
+
+      <mat-form-field appearance="outline" class="field">
+        <mat-label> Departure Date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="departureDate" id="departureDate"/>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <br />
+    </div>
+  </form>
+
+  <button mat-raised-button color="primary" (click)="createBooking()" id="createBookingBtn">Create Booking</button>
+
+  <br />
+
+  <div *ngIf="createBookingAPIResponse != undefined">
+    <h2>{{ createBookingAPIResponse.message }}</h2>
+  </div>
+
+</div>
+
+<div class="container" *ngIf="allBookingsList.length > 0">
+  <h1>List of all Bookings</h1>
+  <table mat-table [dataSource]="allBookingsList" class="mat-elevation-z8">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> Booking Id </th>
+      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="customerId">
+      <th mat-header-cell *matHeaderCellDef> Customer Id </th>
+      <td mat-cell *matCellDef="let element"> {{element.customerId}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="travelPackageId">
+      <th mat-header-cell *matHeaderCellDef> Travel Package Id </th>
+      <td mat-cell *matCellDef="let element"> {{element.travelPackageId}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="departureDate">
+      <th mat-header-cell *matHeaderCellDef> Departure Date </th>
+      <td mat-cell *matCellDef="let element"> {{element.departureDate | date: 'dd-MM-yyyy'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="bookingStatus">
+      <th mat-header-cell *matHeaderCellDef> Booking Status </th>
+      <td mat-cell *matCellDef="let element"> {{element.bookingStatus}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>

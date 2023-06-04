@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,26 +18,32 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { UserLoginComponent } from './user-login/user-login.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { CreateCustomerComponent } from './create-customer/create-customer.component';
 import { CreateTravelPackageComponent } from './create-travel-package/create-travel-package.component';
+import { CreateBookingComponent } from './create-booking/create-booking.component';
+import { GetReportComponent } from './get-report/get-report.component';
+import { UpdateBookingComponent } from './update-booking/update-booking.component';
 import { UpdateTravelPackageComponent } from './update-travel-package/update-travel-package.component';
-import { SearchTravelPackageComponent } from './search-travel-package/search-travel-package.component';
+import { UserLoginComponent } from './user-login/user-login.component';
 import { UpdateProfileComponent } from './update-profile/update-profile.component';
+import { SearchTravelPackageComponent } from './search-travel-package/search-travel-package.component';
+import { ViewBookingComponent } from './view-booking/view-booking.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    UserLoginComponent,
     HomePageComponent,
     CreateCustomerComponent,
     CreateTravelPackageComponent,
+    CreateBookingComponent,
+    UpdateBookingComponent,
     UpdateTravelPackageComponent,
+    UserLoginComponent,
+    UpdateProfileComponent,
+    GetReportComponent,
     SearchTravelPackageComponent,
-    UpdateProfileComponent
+    ViewBookingComponent
   ],
   imports: [
     BrowserModule,
