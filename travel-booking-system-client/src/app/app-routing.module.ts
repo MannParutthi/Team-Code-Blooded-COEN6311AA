@@ -10,6 +10,9 @@ import { UpdateTravelPackageComponent } from './update-travel-package/update-tra
 import { UserLoginComponent } from './user-login/user-login.component';
 import {PaymentComponent} from "./payment/payment.component";
 import { UpdateProfileComponent } from './update-profile/update-profile.component';
+import { CreateBookingComponent } from './create-booking/create-booking.component';
+import { UpdateBookingComponent } from './update-booking/update-booking.component';
+import { GetReportComponent } from './get-report/get-report.component';
 import { SearchTravelPackageComponent } from './search-travel-package/search-travel-package.component';
 import { ViewBookingComponent } from './view-booking/view-booking.component';
 
@@ -23,6 +26,7 @@ const routes: Routes = [
   { path: "search-travel-package", component: SearchTravelPackageComponent },
   { path: "create-booking", component: CreateBookingComponent },
   { path: "update-booking", component: UpdateBookingComponent },
+  { path: "get-report", component: GetReportComponent },
   { path: "view-booking", component: ViewBookingComponent },
   { path: "get-report", component: GetReportComponent },
   {path: 'payment/:bookingId', component: PaymentComponent },
