@@ -1,5 +1,7 @@
 package com.codeblooded.travelbookingsystem.user;
 
+import com.codeblooded.travelbookingsystem.bookings.BookingsRepository;
+import com.codeblooded.travelbookingsystem.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,15 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    // Class instance for emailService
+    private EmailService emailService;
+
+    @Autowired
+    public UserController(UserRepository userRepository, EmailService emailService) {
+        this.userRepository = userRepository;
+        this.emailService = emailService;
+    }
+
     @PostMapping("/create")
     public ResponseEntity<String> createUser(@RequestBody User user) {
         if (userRepository.existsByEmail(user.getEmail())) {
@@ -20,6 +31,10 @@ public class UserController {
         }
 
         User createdUser = userRepository.save(user);
+
+        // Send welcome email to user
+        emailService.sendAccountRegistrationEmail(createdUser.getEmail());
+
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(UserService.USER_CREATED_SUCCESSFULLY);
     }
