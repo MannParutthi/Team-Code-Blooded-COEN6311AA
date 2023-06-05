@@ -1,6 +1,6 @@
 package com.codeblooded.travelbookingsystem.bookings;
 
-import com.codeblooded.travelbookingsystem.payment.Payment;
+//import com.codeblooded.travelbookingsystem.payment.Payment;
 import com.codeblooded.travelbookingsystem.service.EmailService;
 import com.codeblooded.travelbookingsystem.travelpackages.TravelPackageRepository;
 import com.codeblooded.travelbookingsystem.travelpackages.TravelPackageService;
@@ -53,13 +53,13 @@ public class BookingsController {
 
 
         // TODO: Payment
-        Payment payment = new Payment();
+//        Payment payment = new Payment();
 
         // Email Notification
         User customer = userRepository.findById(booking.getCustomerId());
         if(customer != null) {
             long bookingId = booking.getId();
-            emailService.sendBookingConfirmationEmail(customer.getEmail(), customer.getId(), bookingId, payment.getId(), booking.getTravelPackageId(), booking.getDepartureDate(), booking.getBookingStatus().name());
+            emailService.sendBookingConfirmationEmail(customer.getEmail(), customer.getId(), bookingId, 11100, booking.getTravelPackageId(), booking.getDepartureDate(), booking.getBookingStatus().name());
         }
 
         return new ResponseEntity<>(new BookingResponse(BookingService.BOOKING_CREATED_PAYMENT_PENDING, booking.getId()), HttpStatus.CREATED);
@@ -79,11 +79,11 @@ public class BookingsController {
 
         // Send email
         User customer = userRepository.findById(booking.getCustomerId());
-        Payment payment = new Payment();
-        payment.setId(11100); // TODO: Remove
+//        Payment payment = new Payment();
+//        payment.setId(11100); // TODO: Remove
         if(customer != null) {
             String bookingStatus = booking.getBookingStatus().name();
-            emailService.sendBookingUpdateEmail(customer.getEmail(), customer.getId(), booking.getId(), payment.getId(), booking.getTravelPackageId(), booking.getDepartureDate(), bookingStatus);
+            emailService.sendBookingUpdateEmail(customer.getEmail(), customer.getId(), booking.getId(), 11100, booking.getTravelPackageId(), booking.getDepartureDate(), bookingStatus);
         }
         return new ResponseEntity<String>(BookingService.BOOKING_UPDATED_SUCCESSFULLY, HttpStatus.OK);
     }
@@ -111,11 +111,11 @@ public class BookingsController {
 
         // Send email
         User customer = userRepository.findById(booking.getCustomerId());
-        Payment payment = new Payment();
-        payment.setId(11100); // TODO: Remove
+//        Payment payment = new Payment();
+//        payment.setId(11100); // TODO: Remove
         if(customer != null) {
             String bookingStatus = booking.getBookingStatus().name();
-            emailService.sendBookingUpdateEmail(customer.getEmail(), customer.getId(), booking.getId(), payment.getId(), booking.getTravelPackageId(), booking.getDepartureDate(), bookingStatus);
+            emailService.sendBookingUpdateEmail(customer.getEmail(), customer.getId(), booking.getId(), 11100, booking.getTravelPackageId(), booking.getDepartureDate(), bookingStatus);
         }
 
 
@@ -136,11 +136,11 @@ public class BookingsController {
 
         // Send email
         User customer = userRepository.findById(booking.getCustomerId());
-        Payment payment = new Payment();
-        payment.setId(11100); // TODO: Remove
+//        Payment payment = new Payment();
+//        payment.setId(11100); // TODO: Remove
         if(customer != null) {
             String bookingStatus = booking.getBookingStatus().name();
-            emailService.sendBookingUpdateEmail(customer.getEmail(), customer.getId(), booking.getId(), payment.getId(), booking.getTravelPackageId(), booking.getDepartureDate(), bookingStatus);
+            emailService.sendBookingUpdateEmail(customer.getEmail(), customer.getId(), booking.getId(), 11100, booking.getTravelPackageId(), booking.getDepartureDate(), bookingStatus);
         }
 
         return new ResponseEntity<>("Booking cancelled for ID: " + bookingId, HttpStatus.OK);

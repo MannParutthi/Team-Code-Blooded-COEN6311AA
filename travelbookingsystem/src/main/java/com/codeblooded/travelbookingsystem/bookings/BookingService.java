@@ -1,17 +1,13 @@
 package com.codeblooded.travelbookingsystem.bookings;
 
-import com.codeblooded.travelbookingsystem.service.EmailService;
-import com.codeblooded.travelbookingsystem.user.User;
 import com.codeblooded.travelbookingsystem.user.UserService;
 import com.codeblooded.travelbookingsystem.user.UserRepository;
-import com.codeblooded.travelbookingsystem.payment.Payment;
 import com.codeblooded.travelbookingsystem.travelpackages.TravelPackageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BookingService {
