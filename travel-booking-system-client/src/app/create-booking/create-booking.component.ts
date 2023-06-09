@@ -61,7 +61,7 @@ export class CreateBookingComponent implements OnInit {
 
   getAllBookings() {
     this.createBookingService.getAllBookings().subscribe((res) => {
-      this.allBookingsList = res;
+      this.allBookingsList = res;  
       if(this.loggedUser.userType == "CUSTOMER") {
         this.allBookingsList = this.allBookingsList.filter((booking) => booking.customerId === this.loggedUser.id)
       }
@@ -71,7 +71,7 @@ export class CreateBookingComponent implements OnInit {
 
   getAllCustomers() {
     this.createBookingService.getAllCustomers().subscribe((res) => {
-      this.allCustomersList = res;
+    this.allCustomersList = res;
       console.log("getAllCustomers ==> " + res);
     });
   }
@@ -82,4 +82,21 @@ export class CreateBookingComponent implements OnInit {
       console.log("getAllTravelPackages ==> " + res);
     });
   }
+
+  getCustomerFullName(customerId: string): string {
+    const customer = this.allCustomersList.find(user => user.id === customerId);
+    if (customer) {
+      return `${customer.firstName} ${customer.lastName}`;
+    }
+    return '';
+  }
+
+  getPackageDetails(travelPackageId: string): string {
+    const travelpackage = this.allTravelPackagesList.find(travelpackage => travelpackage.id === travelPackageId);
+    if (travelpackage) {
+      return `${travelpackage.destinationCity}, ${travelpackage.destinationCountry} - $${travelpackage.price} - ${travelpackage.noOfDays} Days`;
+    }
+    return '';
+  }
+  
 }
