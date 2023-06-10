@@ -57,4 +57,20 @@ export class ViewBookingComponent implements OnInit {
       console.log("getAllTravelPackages ==> " + res);
     });
   }
+
+  getCustomerFullName(customerId: string): string {
+    const customer = this.allCustomersList.find(user => user.id === customerId);
+    if (customer) {
+      return `${customer.firstName} ${customer.lastName}`;
+    }
+    return '';
+  }
+
+  getPackageDetails(travelPackageId: string): string {
+    const travelpackage = this.allTravelPackagesList.find(travelpackage => travelpackage.id === travelPackageId);
+    if (travelpackage) {
+      return `${travelpackage.destinationCity}, ${travelpackage.destinationCountry} - $${travelpackage.price} - ${travelpackage.noOfDays} Days`;
+    }
+    return '';
+  }
 }

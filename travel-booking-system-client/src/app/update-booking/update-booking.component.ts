@@ -21,6 +21,9 @@ export class UpdateBookingComponent implements OnInit {
   updateBookingAPIResponse: any;
 
   allBookingsList: any[] = [];
+  allCustomersList: any[] = [];
+
+  allTravelPackagesList: any[] = [];
 
   loggedUser: any
 
@@ -37,6 +40,8 @@ export class UpdateBookingComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllBookings();
+    this.getAllTravelPackages();
+    this.getAllCustomers();
   }
 
   updateBooking() {
@@ -58,6 +63,20 @@ export class UpdateBookingComponent implements OnInit {
     });
   }
 
+  getAllCustomers() {
+    this.updateBookingService.getAllCustomers().subscribe((res) => {
+    this.allCustomersList = res;
+      console.log("getAllCustomers ==> " + res);
+    });
+  }
+
+  getAllTravelPackages() {
+    this.updateBookingService.getAllTravelPackages().subscribe((res) => {
+      this.allTravelPackagesList = res;
+      console.log("getAllTravelPackages ==> " + res);
+    });
+  }
+
   onBookingIdSelection() {
     console.log("selectedPackageId ==> " + this.selectedBookingId);
     let bookingData = this.allBookingsList.find((b) => b.id === this.selectedBookingId);
@@ -68,6 +87,22 @@ export class UpdateBookingComponent implements OnInit {
       departureDate: bookingData.departureDate,
       bookingStatus: bookingData.bookingStatus
     });
+  }
+
+  getCustomerFullName(customerId: string): string {
+    const customer = this.allCustomersList.find(user => user.id === customerId);
+    if (customer) {
+      return `${customer.firstName} ${customer.lastName}`;
+    }
+    return '';
+  }
+
+  getPackageDetails(travelPackageId: string): string {
+    const travelpackage = this.allTravelPackagesList.find(travelpackage => travelpackage.id === travelPackageId);
+    if (travelpackage) {
+      return `${travelpackage.destinationCity}, ${travelpackage.destinationCountry} - $${travelpackage.price} - ${travelpackage.noOfDays} Days`;
+    }
+    return '';
   }
 
 }

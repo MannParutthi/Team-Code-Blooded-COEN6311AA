@@ -1,31 +1,12 @@
 .container {
-    padding: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  .field {
-    width: 100%;
-    margin-bottom: 20px;
-  }
-  
-  .button-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  .response-message {
-    margin-top: 20px;
-  }
-  
-  table {
-    width: 100%;
-  }
-  
-  .center {
-    text-align: center;
-  }
+  padding: 30px;
+}
+
+.field {
+  width: 100%;
+  margin-right: 10px;
+}
+
+table {
+  width: 100%;
+}

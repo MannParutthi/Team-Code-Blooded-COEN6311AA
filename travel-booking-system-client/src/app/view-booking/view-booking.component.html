@@ -8,12 +8,12 @@
   
       <ng-container matColumnDef="customerId">
         <th mat-header-cell *matHeaderCellDef> Customer Id </th>
-        <td mat-cell *matCellDef="let element"> {{element.customerId}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.customerId}}  - {{ getCustomerFullName(element.customerId) }} </td>
       </ng-container>
   
       <ng-container matColumnDef="travelPackageId">
-        <th mat-header-cell *matHeaderCellDef> Travel Package Id </th>
-        <td mat-cell *matCellDef="let element"> {{element.travelPackageId}} </td>
+        <th mat-header-cell *matHeaderCellDef> Travel Package</th>
+        <td mat-cell *matCellDef="let element"> {{element.travelPackageId}} - {{ getPackageDetails(element.travelPackageId) }}</td>
       </ng-container>
   
       <ng-container matColumnDef="departureDate">
