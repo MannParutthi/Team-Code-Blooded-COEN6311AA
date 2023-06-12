@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8081/api/v1'
+  apiUrl: 'https://codeblooded-backend.azurewebsites.net/api/v1'
 };
 
 /*

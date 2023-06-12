@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserLoginService } from './user-login.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-user-login',
@@ -16,9 +17,8 @@ export class UserLoginComponent implements OnInit {
   });
 
   loggedUser: any;
-  loginAPIResponse: any;
 
-  constructor(private _router: Router, private formBuilder: FormBuilder, private userLoginService: UserLoginService) {
+  constructor(private _router: Router, private formBuilder: FormBuilder, private userLoginService: UserLoginService, private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -28,16 +28,17 @@ export class UserLoginComponent implements OnInit {
   }
 
   loginUser() {
-    this.userLoginService.loginUser(this.formGroup.getRawValue()).subscribe((res) => {
+    this.userLoginService.loginUser(this.formGroup.getRawValue()).subscribe(
+      (res) => {
       this.loggedUser = res;
-      if (this.loggedUser == null)
-      {
-        this.loginAPIResponse = "Incorrect username or password"
-        return
-      }
       localStorage.setItem("user", JSON.stringify(res))
+      this.toastr.success('Login Successful', 'Welcome');
       this._router.navigateByUrl('/home')
-    });
+    },
+    (error) => {
+      this.toastr.error('Incorrect username or password', 'Login Failed');
+    }
+    );
   }
 
 }
