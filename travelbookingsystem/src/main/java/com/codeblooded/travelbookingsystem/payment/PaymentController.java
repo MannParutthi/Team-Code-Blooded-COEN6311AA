@@ -25,4 +25,13 @@ public class PaymentController {
     public PaymentTokenDTO createCardToken(@RequestBody PaymentTokenDTO paymentToken) {
         return paymentService.createPaymentToken(paymentToken);
     }
+
+    @PostMapping("/chargeCard")
+    @ResponseBody
+    public PaymentChargeDTO makePayment(@RequestBody PaymentChargeDTO paymentCharge) {
+        return paymentService.makePayment(paymentCharge);
+
+        //  ResponseEntity<String>
+//            return ResponseEntity.ok("Payment successful!");
+    }
 }

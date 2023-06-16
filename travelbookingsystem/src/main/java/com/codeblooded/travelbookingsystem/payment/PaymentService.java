@@ -46,4 +46,36 @@ public class PaymentService {
         }
 
     }
+
+    public PaymentChargeDTO makePayment(PaymentChargeDTO paymentRequest) {
+        try {
+            paymentRequest.setSuccess(false);
+            Map <String, Object> chargeParams = new HashMap<>();
+            chargeParams.put("amount", (int) (paymentRequest.getAmount() * 100));
+            chargeParams.put("currency", "CAD");
+            chargeParams.put("description", "Payment for booking id: " + paymentRequest.getBookingId().toString());
+            chargeParams.put("source", paymentRequest.getStripeToken());
+
+            Map <String, Object> metaData = new HashMap<>();
+            metaData.put("id", paymentRequest.getChargeId());
+            chargeParams.put("metadata", metaData);
+            Charge charge = Charge.create(chargeParams);
+            paymentRequest.setMessage(charge.getOutcome().getSellerMessage());
+
+            if (charge.getPaid()) {
+                paymentRequest.setChargeId(charge.getId());
+                paymentRequest.setSuccess(true);
+            }
+
+            return paymentRequest;
+        }
+        catch (StripeException e) {
+            throw new RuntimeException("PaymentService - function: makePayment - " + e.getMessage());
+        }
+    }
+
+
+    private void validatePaymentDetails(String cardNumber, int expMonth, int expYear, String cvc, int amount, String currency) {
+        // Perform validations here...
+    }
 }
