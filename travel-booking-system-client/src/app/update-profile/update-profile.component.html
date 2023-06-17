@@ -1,4 +1,11 @@
 <div class="container" *ngIf="!!loggedUser">
+    <button class="btn btn-primary" onclick="history.back()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+        </svg>
+    </button>
     <h1>Update Profile</h1>
 
     <form [formGroup]="formGroup">
@@ -24,7 +31,7 @@
 
             <mat-form-field appearance="outline" class="field">
                 <mat-label>Date Of Birth</mat-label>
-                <input matInput [matDatepicker]="picker" formControlName="dateOfBirth" id="dateOfBirth" [min]="today"/>
+                <input matInput [matDatepicker]="picker" formControlName="dateOfBirth" id="dateOfBirth" [min]="today" />
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
@@ -42,7 +49,8 @@
         </div>
     </form>
 
-    <button mat-raised-button color="primary" (click)="updateProfile()" id="updateProfileBtn" [disabled]="disableUpdateProfileButton">Update Profile</button>
+    <button mat-raised-button color="primary" (click)="updateProfile()" id="updateProfileBtn"
+        [disabled]="disableUpdateProfileButton">Update Profile</button>
 
     <br />
 

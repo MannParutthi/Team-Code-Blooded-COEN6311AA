@@ -4,12 +4,20 @@
 
 
 <div class="container" *ngIf="allBookingsList.length > 0">
+  <button class="btn btn-primary" onclick="history.back()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left"
+      viewBox="0 0 16 16">
+      <path fill-rule="evenodd"
+        d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+    </svg>
+  </button>
   <form [formGroup]="formGroup">
     <h1>Update Booking</h1>
     <div fxLayout="row" fxLayout.xs="column">
       <mat-form-field appearance="outline" class="field">
         <mat-label>Booking Id</mat-label>
-        <mat-select formControlName="id" id="id" [(ngModel)]="selectedBookingId" (selectionChange)="onBookingIdSelection()">
+        <mat-select formControlName="id" id="id" [(ngModel)]="selectedBookingId"
+          (selectionChange)="onBookingIdSelection()">
           <mat-option *ngFor="let booking of allBookingsList" [value]="booking.id">{{booking.id}}</mat-option>
         </mat-select>
       </mat-form-field>
@@ -19,11 +27,13 @@
       <mat-form-field appearance="outline" class="field">
         <mat-label>Customer</mat-label>
         <ng-container *ngIf="loggedUser.userType == 'CUSTOMER'; else elseTemplate">
-          <input matInput type="text" formControlName="customerId" id="customerId" [(ngModel)]="loggedUser.id" readonly/>
+          <input matInput type="text" formControlName="customerId" id="customerId" [(ngModel)]="loggedUser.id"
+            readonly />
         </ng-container>
         <ng-template #elseTemplate>
           <mat-select formControlName="customerId" id="customerId">
-            <mat-option *ngFor="let user of allCustomersList" [value]="user.id">{{user.id}} - {{user.firstName}} {{user.lastName}}</mat-option>
+            <mat-option *ngFor="let user of allCustomersList" [value]="user.id">{{user.id}} - {{user.firstName}}
+              {{user.lastName}}</mat-option>
           </mat-select>
         </ng-template>
       </mat-form-field>
@@ -33,12 +43,13 @@
       <mat-form-field appearance="outline" class="field">
         <mat-label>Travel Package Id</mat-label>
         <ng-container *ngIf="loggedUser.userType == 'CUSTOMER'">
-          <input matInput type="number" formControlName="travelPackageId" id="travelPackageId"/>
+          <input matInput type="number" formControlName="travelPackageId" id="travelPackageId" />
         </ng-container>
         <ng-container *ngIf="loggedUser.userType != 'CUSTOMER'">
           <mat-select formControlName="travelPackageId" id="travelPackageId">
             <mat-option *ngFor="let package of allTravelPackagesList" [value]="package.id">
-              {{package.id}} - {{package.destinationCity}}, {{package.destinationCountry}} - ${{package.price}} - {{package.noOfDays}} Days
+              {{package.id}} - {{package.destinationCity}}, {{package.destinationCountry}} - ${{package.price}} -
+              {{package.noOfDays}} Days
             </mat-option>
           </mat-select>
         </ng-container>
@@ -48,7 +59,7 @@
 
       <mat-form-field appearance="outline" class="field">
         <mat-label> Departure Date</mat-label>
-        <input matInput [matDatepicker]="picker" formControlName="departureDate" id="departureDate" [min]="today"/>
+        <input matInput [matDatepicker]="picker" formControlName="departureDate" id="departureDate" [min]="today" />
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
@@ -65,7 +76,8 @@
     </div>
   </form>
 
-  <button mat-raised-button color="primary" (click)="updateBooking()" id="updateBookingBtn" [disabled]="disableUpdateBookingButton">Update Booking</button>
+  <button mat-raised-button color="primary" (click)="updateBooking()" id="updateBookingBtn"
+    [disabled]="disableUpdateBookingButton">Update Booking</button>
 
   <br />
 
@@ -83,12 +95,14 @@
 
     <ng-container matColumnDef="customerId">
       <th mat-header-cell *matHeaderCellDef> Customer </th>
-      <td mat-cell *matCellDef="let element"> {{element.customerId}}  - {{ getCustomerFullName(element.customerId) }} </td>
+      <td mat-cell *matCellDef="let element"> {{element.customerId}} - {{ getCustomerFullName(element.customerId) }}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="travelPackageId">
       <th mat-header-cell *matHeaderCellDef> Travel Package</th>
-      <td mat-cell *matCellDef="let element"> {{element.travelPackageId}} - {{ getPackageDetails(element.travelPackageId) }}</td>
+      <td mat-cell *matCellDef="let element"> {{element.travelPackageId}} - {{
+        getPackageDetails(element.travelPackageId) }}</td>
     </ng-container>
 
     <ng-container matColumnDef="departureDate">
