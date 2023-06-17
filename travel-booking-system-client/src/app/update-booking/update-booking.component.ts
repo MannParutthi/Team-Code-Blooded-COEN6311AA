@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 })
 export class UpdateBookingComponent implements OnInit {
 
+  today = new Date();
+
   formGroup: FormGroup = this.formBuilder.group({
     'id': [0, []],
     'customerId': [null, []],

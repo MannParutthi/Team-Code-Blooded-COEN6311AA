@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 })
 export class CreateBookingComponent implements OnInit {
 
+  today = new Date();
+
   formGroup: FormGroup = this.formBuilder.group({
     'id': [0, []],
     'customerId': [null, []],
@@ -29,7 +31,7 @@ export class CreateBookingComponent implements OnInit {
 
   loggedUser: any
 
-  constructor(private formBuilder: FormBuilder, private createBookingService: CreateBookingService, private router: Router) { 
+  constructor(private formBuilder: FormBuilder, private createBookingService: CreateBookingService, private router: Router) {
     this.loggedUser = localStorage.getItem("user")
     if (!this.loggedUser) {
       this.router.navigateByUrl('/login')
@@ -61,7 +63,7 @@ export class CreateBookingComponent implements OnInit {
 
   getAllBookings() {
     this.createBookingService.getAllBookings().subscribe((res) => {
-      this.allBookingsList = res;  
+      this.allBookingsList = res;
       if(this.loggedUser.userType == "CUSTOMER") {
         this.allBookingsList = this.allBookingsList.filter((booking) => booking.customerId === this.loggedUser.id)
       }
@@ -98,5 +100,5 @@ export class CreateBookingComponent implements OnInit {
     }
     return '';
   }
-  
+
 }

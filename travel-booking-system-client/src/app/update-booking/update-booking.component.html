@@ -26,7 +26,7 @@
             <mat-option *ngFor="let user of allCustomersList" [value]="user.id">{{user.id}} - {{user.firstName}} {{user.lastName}}</mat-option>
           </mat-select>
         </ng-template>
-      </mat-form-field>     
+      </mat-form-field>
 
       <br>
 
@@ -48,7 +48,7 @@
 
       <mat-form-field appearance="outline" class="field">
         <mat-label> Departure Date</mat-label>
-        <input matInput [matDatepicker]="picker" formControlName="departureDate" id="departureDate"/>
+        <input matInput [matDatepicker]="picker" formControlName="departureDate" id="departureDate" [min]="today"/>
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>

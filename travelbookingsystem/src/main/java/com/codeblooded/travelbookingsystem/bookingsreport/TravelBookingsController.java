@@ -1,4 +1,4 @@
-package com.codeblooded.travelbookingsystem;
+package com.codeblooded.travelbookingsystem.bookingsreport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;

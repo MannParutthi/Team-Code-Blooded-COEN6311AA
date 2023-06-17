@@ -1,4 +1,4 @@
-package com.codeblooded.travelbookingsystem;
+package com.codeblooded.travelbookingsystem.bookingsreport;
 
 import com.codeblooded.travelbookingsystem.travelpackages.TravelPackage;
 import lombok.AllArgsConstructor;

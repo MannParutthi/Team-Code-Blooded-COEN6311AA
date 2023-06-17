@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UpdateTravelPackageService } from './update-travel-package.service';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-update-travel-package',
@@ -37,7 +38,7 @@ export class UpdateTravelPackageComponent implements OnInit {
 
   loggedUser: any
 
-  constructor(private _router: Router, private formBuilder: FormBuilder, private packageService: UpdateTravelPackageService) { }
+  constructor(private _router: Router, private formBuilder: FormBuilder, private packageService: UpdateTravelPackageService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.loggedUser = localStorage.getItem("user")
@@ -83,6 +84,17 @@ export class UpdateTravelPackageComponent implements OnInit {
     let payload = this.formGroup.getRawValue();
     payload.id = this.selectedTravelPackageId;
     console.log("updatePackageFormGroup ==> " + JSON.stringify(payload));
+
+    let totalHotelDaysBooked = 0;
+    payload.hotelDaysWithId.forEach((hotel: any) => {
+      totalHotelDaysBooked += hotel.noOfDays;
+    });
+
+    if(totalHotelDaysBooked != payload.noOfDays) {
+      this.toastr.error('Please enter valid no of days for hotels', 'Invalid Input');
+      return;
+    }
+
     this.packageService.updatePackage(this.selectedTravelPackageId, payload).subscribe((res) => {
       this.updatePackageAPIResponse = res;
       console.log("createPackageAPIResponse ==> " + this.updatePackageAPIResponse);

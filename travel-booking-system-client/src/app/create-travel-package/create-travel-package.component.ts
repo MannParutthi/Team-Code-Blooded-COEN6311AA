@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup,Validators } from '@angular/forms';
 import { CreateTravelPackageService } from './create-travel-package.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-create-travel-package',
@@ -32,7 +33,7 @@ export class CreateTravelPackageComponent implements OnInit {
 
   displayedColumns: string[] = ['id', 'destination', 'noOfDays', 'flight', 'hotel', 'activitiesIncluded', 'price'];
 
-  constructor(private formBuilder: FormBuilder, private packageService: CreateTravelPackageService) { }
+  constructor(private formBuilder: FormBuilder, private packageService: CreateTravelPackageService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
 
@@ -46,7 +47,17 @@ export class CreateTravelPackageComponent implements OnInit {
   createPackage() {
     let payload = this.formGroup.getRawValue()
     console.log("createPackageFormGroup ==> " + JSON.stringify(payload));
-    // payload.activitiesIncluded = payload.activitiesIncluded.split(',');
+
+    let totalHotelDaysBooked = 0;
+    payload.hotelDaysWithId.forEach((hotel: any) => {
+      totalHotelDaysBooked += hotel.noOfDays;
+    });
+
+    if(totalHotelDaysBooked != payload.noOfDays) {
+      this.toastr.error('Please enter valid no of days for hotels', 'Invalid Input');
+      return;
+    }
+
     this.packageService.createPackage(payload).subscribe((res) => {
       this.createPackageAPIResponse = res;
       console.log("createPackageAPIResponse ==> " + this.createPackageAPIResponse);

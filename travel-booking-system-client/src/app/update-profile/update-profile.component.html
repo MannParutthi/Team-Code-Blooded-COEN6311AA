@@ -24,7 +24,7 @@
 
             <mat-form-field appearance="outline" class="field">
                 <mat-label>Date Of Birth</mat-label>
-                <input matInput [matDatepicker]="picker" formControlName="dateOfBirth" id="dateOfBirth" />
+                <input matInput [matDatepicker]="picker" formControlName="dateOfBirth" id="dateOfBirth" [min]="today"/>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>

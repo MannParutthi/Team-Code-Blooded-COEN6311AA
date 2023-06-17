@@ -10,6 +10,8 @@ import { UpdateProfileService } from './update-profile.service';
 })
 export class UpdateProfileComponent implements OnInit {
 
+  today = new Date();
+
   loggedUser: any
 
   updateProfileAPIResponse: any
