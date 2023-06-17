@@ -1,45 +1,73 @@
-<div class="centeredContent">
+<header class="site-header sticky-top py-1">
+  <nav class="container d-flex flex-column flex-md-row justify-content-between">
+    <a class="py-2" href="#" aria-label="Product">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor"
+        stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="d-block mx-auto" role="img"
+        viewBox="0 0 24 24">
+        <title>Product</title>
+        <circle cx="12" cy="12" r="10" />
+        <path
+          d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83m13.79-4l-5.74 9.94" />
+      </svg>
+    </a>
+    <a class="py-2 d-none d-md-inline-block" routerLink="/create-travel-package">Create Travel Package</a>
+    <a *ngIf="loggedUser.userType != 'CUSTOMER'" class="py-2 d-none d-md-inline-block"
+      routerLink="/update-travel-package">Update Travel Package</a>
+    <a class="py-2 d-none d-md-inline-block" routerLink="/search-travel-package">Search Travel Package</a>
+    <a class="py-2 d-none d-md-inline-block" routerLink="/create-booking">Create Booking</a>
+    <a class="py-2 d-none d-md-inline-block" routerLink="/update-booking">Update Booking</a>
+    <a class="py-2 d-none d-md-inline-block" routerLink="/view-booking">View Booking</a>
+    <a *ngIf="loggedUser.userType != 'CUSTOMER'" class="py-2 d-none d-md-inline-block" routerLink="/get-report">Get
+      Report</a>
+    <a class="py-2 d-none d-md-inline-block" routerLink="/update-profile">Update Profile</a>
+    <a *ngIf=" loggedUser != null " class="py-2 d-none d-md-inline-block" (click)="logout()">Logout</a>
 
-  <div style="width: 100%; background-color: burlywood; padding: 1%;" mat-line>
-    Hello {{ loggedUser.firstName | uppercase }}
+
+  </nav>
+</header>
+<main>
+  <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
+    <div routerLink="/create-booking"
+      class=" custom-height bg-dark me-md-3 pt-3 px-3  px-md-5 text-center text-white overflow-hidden">
+      <div class="my-3 py-3">
+        <h2 class="display-5" routerLink="/create-booking">Visit Vancouver</h2>
+        <p class="lead">Book Hotels and Flights!!</p>
+      </div>
+      <div class="bg-dark shadow-sm mx-auto" style="width: 80%; height: 200px; border-radius: 21px 21px 0 0;">
+        <a><img routerLink="/create-booking" src="../../assets/img/l1.jpg" alt="Logo" class="logo"></a>
+      </div>
+    </div>
+    <div routerLink="/create-booking"
+      class="custom-height bg-light me-md-3 pt-3 px-3  px-md-5 text-center overflow-hidden">
+      <div class="my-3 p-3">
+        <h2 class="display-5">Discover Toronto</h2>
+        <p class="lead">Check out amazing activities.</p>
+      </div>
+      <div class="bg-light shadow-sm mx-auto" style="width: 80%; height: 200px; border-radius: 21px 21px 0 0;">
+        <img src="../../assets/img/t2.jpg" alt="Logo" class="logo">
+      </div>
+    </div>
   </div>
-  <br>
 
-  <button mat-raised-button color="primary" style="margin: 20px" routerLink="/create-travel-package">
-    Create Travel Package
-  </button>
-
-  <button *ngIf="loggedUser.userType != 'CUSTOMER'" mat-raised-button color="primary" style="margin: 20px" routerLink="/update-travel-package">
-    Manage Travel Package
-  </button>
-
-  <button mat-raised-button color="primary" style="margin: 20px" routerLink="/search-travel-package">
-    Search Travel Package
-  </button>
-
-  <button mat-raised-button color="primary" style="margin: 20px" routerLink="/create-booking">
-    Create Booking
-  </button>
-
-  <button mat-raised-button color="primary" style="margin: 20px" routerLink="/update-booking">
-    Update Booking
-  </button>
-  
-  <button mat-raised-button color="primary" style="margin: 20px" routerLink="/view-booking">
-    View Booking
-  </button>
-
-  <button *ngIf="loggedUser.userType != 'CUSTOMER'" mat-raised-button color="primary" style="margin: 20px" routerLink="/get-report">
-    Get Report
-  </button>
-
-  <br><br>
-
-  <button mat-raised-button color="primary" style="margin: 20px" routerLink="/update-profile">
-    Update Profile
-  </button>
-
-  <button *ngIf=" loggedUser != null " mat-raised-button color="primary" style="margin: 20px" (click)="logout()">
-    Logout
-  </button>
-</div>
+  <div routerLink="/create-travel-package" class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
+    <div class="custom-height bg-light me-md-3 pt-3 px-3  px-md-5 text-center overflow-hidden">
+      <div class="my-3 p-3">
+        <h2 class="display-5">Customize your Travel</h2>
+        <p class="lead">Create your own package!!</p>
+      </div>
+      <div class="bg-light shadow-sm mx-auto" style="width: 80%; height: 200px; border-radius: 21px 21px 0 0;">
+        <img src="../../assets/img/t3.jpg" alt="Logo" class="logo">
+      </div>
+    </div>
+    <div routerLink="/search-travel-package"
+      class="custom-height bg-dark me-md-3 pt-3 px-3  pt-md-5 px-md-5 text-center text-white overflow-hidden">
+      <div class="my-3 py-3">
+        <h2 class="display-5">Explore Canada</h2>
+        <p class="lead">Use our exciting travel packages!!</p>
+      </div>
+      <div class="bg-dark shadow-sm mx-auto" style="width: 80%; height: 200px; border-radius: 21px 21px 0 0;">
+        <img src="../../assets/img/t4.jpg" alt="Logo" class="logo">
+      </div>
+    </div>
+  </div>
+</main>
