@@ -1,142 +1,149 @@
 <div class="container">
-    <form [formGroup]="formGroup">
-      <h1>Create Package</h1>
-      <div fxLayout="column">
+  <button class="btn btn-primary" onclick="history.back()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left"
+      viewBox="0 0 16 16">
+      <path fill-rule="evenodd"
+        d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+    </svg>
+  </button>
+  <form [formGroup]="formGroup">
+    <h1>Create Package</h1>
+    <div fxLayout="column">
 
-        <mat-form-field appearance="outline" class="field">
-          <mat-label>Destination City</mat-label>
-          <mat-select formControlName="destinationCity" id="destinationCity" class="small-input" (selectionChange)="filterHotelAndFlights($event.value)">
-            <mat-option value="Toronto">Toronto</mat-option>
-            <mat-option value="Vancouver">Vancouver</mat-option>
-            <mat-option value="Montreal">Montreal</mat-option>
-          </mat-select>
-        </mat-form-field>
+      <mat-form-field appearance="outline" class="field">
+        <mat-label>Destination City</mat-label>
+        <mat-select formControlName="destinationCity" id="destinationCity" class="small-input" (selectionChange)="filterHotelAndFlights($event.value)">
+          <mat-option value="Toronto">Toronto</mat-option>
+          <mat-option value="Vancouver">Vancouver</mat-option>
+          <mat-option value="Montreal">Montreal</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-        <mat-form-field appearance="outline" class="field">
-          <mat-label>Destination Country</mat-label>
-          <mat-select formControlName="destinationCountry" id="destinationCountry" class="small-input">
-            <mat-option value="Canada">Canada</mat-option>
-          </mat-select>
-        </mat-form-field>
+      <mat-form-field appearance="outline" class="field">
+        <mat-label>Destination Country</mat-label>
+        <mat-select formControlName="destinationCountry" id="destinationCountry" class="small-input">
+          <mat-option value="Canada">Canada</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-        <mat-form-field appearance="outline" class="field">
-          <mat-label>No. of Days</mat-label>
-          <input matInput type="number" formControlName="noOfDays" id="noOfDays" class="small-input" min="0"/>
-        </mat-form-field>
+      <mat-form-field appearance="outline" class="field">
+        <mat-label>No. of Days</mat-label>
+        <input matInput type="number" formControlName="noOfDays" id="noOfDays" class="small-input" min="0"/>
+      </mat-form-field>
 
-        <mat-form-field appearance="outline" class="field">
-          <mat-label>Flight</mat-label>
-          <mat-select formControlName="flightId" id="flightId" class="small-input">
-            <mat-option *ngFor="let flight of allFlightsList" [value]="flight.id">
-              {{ flight.source }} to {{ flight.destination }} - ${{ flight.pricePerSeat }} ({{ flight.airline }})
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+      <mat-form-field appearance="outline" class="field">
+        <mat-label>Flight</mat-label>
+        <mat-select formControlName="flightId" id="flightId" class="small-input">
+          <mat-option *ngFor="let flight of allFlightsList" [value]="flight.id">
+            {{ flight.source }} to {{ flight.destination }} - ${{ flight.pricePerSeat }} ({{ flight.airline }})
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-        <mat-form-field appearance="outline" class="field">
-          <mat-label>Activities Included</mat-label>
-          <mat-select formControlName="activityIdsIncluded" id="activityIdsIncluded" class="small-input" multiple>
-            <mat-option *ngFor="let activity of allActivitiesList" [value]="activity.id">
-              {{ activity.name }} - ${{ activity.pricePerPerson }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+      <mat-form-field appearance="outline" class="field">
+        <mat-label>Activities Included</mat-label>
+        <mat-select formControlName="activityIdsIncluded" id="activityIdsIncluded" class="small-input" multiple>
+          <mat-option *ngFor="let activity of allActivitiesList" [value]="activity.id">
+            {{ activity.name }} - ${{ activity.pricePerPerson }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-        <div formArrayName="hotelDaysWithId">
-          <ng-container *ngFor="let hotelForm of hotelDaysWithId.controls; let i = index">
-            <div [formGroupName]="i" fxLayout="row" fxLayout.xs="column">
-              <mat-form-field appearance="outline" class="field" fxFlex="80">
-                <mat-label>Hotel</mat-label>
-                <mat-select formControlName="hotelId" class="small-input">
-                  <mat-option *ngFor="let hotel of allHotelsList" [value]="hotel.id">
-                    {{ hotel.name }}, {{ hotel.location }} - ${{ hotel.pricePerRoom }}
-                    <span *ngIf="hotel.rating == 'THREE_STAR'">(★★★)</span>
-                    <span *ngIf="hotel.rating == 'FOUR_STAR'">(★★★★)</span>
-                    <span *ngIf="hotel.rating == 'FIVE_STAR'">(★★★★★)</span>
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
+      <div formArrayName="hotelDaysWithId">
+        <ng-container *ngFor="let hotelForm of hotelDaysWithId.controls; let i = index">
+          <div [formGroupName]="i" fxLayout="row" fxLayout.xs="column">
+            <mat-form-field appearance="outline" class="field" fxFlex="80">
+              <mat-label>Hotel</mat-label>
+              <mat-select formControlName="hotelId" class="small-input">
+                <mat-option *ngFor="let hotel of allHotelsList" [value]="hotel.id">
+                  {{ hotel.name }}, {{ hotel.location }} - ${{ hotel.pricePerRoom }}
+                  <span *ngIf="hotel.rating == 'THREE_STAR'">(★★★)</span>
+                  <span *ngIf="hotel.rating == 'FOUR_STAR'">(★★★★)</span>
+                  <span *ngIf="hotel.rating == 'FIVE_STAR'">(★★★★★)</span>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
 
-              <mat-form-field appearance="outline" class="field" fxFlex="15">
-                <mat-label>No. of Days</mat-label>
-                <input matInput type="number" formControlName="noOfDays" id="noOfDays" class="small-input" min="0"/>
-              </mat-form-field>
+            <mat-form-field appearance="outline" class="field" fxFlex="15">
+              <mat-label>No. of Days</mat-label>
+              <input matInput type="number" formControlName="noOfDays" id="noOfDays" class="small-input" min="0"/>
+            </mat-form-field>
 
-              <div fxFlex="5" *ngIf="i != 0" style="margin-top: 10px;">
-                <button mat-raised-button color="warn" (click)="removeHotelDaysWithId(i)" id="removeHotelDaysWithId">X</button>
-              </div>
+            <div fxFlex="5" *ngIf="i != 0" style="margin-top: 10px;">
+              <button mat-raised-button color="warn" (click)="removeHotelDaysWithId(i)" id="removeHotelDaysWithId">X</button>
             </div>
-          </ng-container>
-        </div>
-
-        <div fxLayout="row" fxLayout.xs="column" style="margin-bottom: 10px;">
-          <div fxFlex="85">
-
           </div>
-          <div fxFlex="15">
-            <button mat-raised-button color="primary" (click)="addHotelDaysWithId()" id="addHotelDaysWithId">Add Hotel</button>
-          </div>
-        </div>
-
-        <mat-form-field appearance="outline" class="field">
-          <mat-label>Price</mat-label>
-          <input matInput type="number" formControlName="price" id="price" class="small-input" [value]="getPackagePrice()" readonly />
-        </mat-form-field>
-
+        </ng-container>
       </div>
-    </form>
 
-    <button mat-raised-button color="primary" (click)="createPackage()" id="createPackageBtn">Create Package</button>
+      <div fxLayout="row" fxLayout.xs="column" style="margin-bottom: 10px;">
+        <div fxFlex="85">
 
-    <br />
+        </div>
+        <div fxFlex="15">
+          <button mat-raised-button color="primary" (click)="addHotelDaysWithId()" id="addHotelDaysWithId">Add Hotel</button>
+        </div>
+      </div>
 
-    <div *ngIf="createPackageAPIResponse !== undefined">{{ createPackageAPIResponse }}</div>
-  </div>
+      <mat-form-field appearance="outline" class="field">
+        <mat-label>Price</mat-label>
+        <input matInput type="number" formControlName="price" id="price" class="small-input" [value]="getPackagePrice()" readonly />
+      </mat-form-field>
 
-  <div class="container" *ngIf="allPackagesList.length > 0 && allFlightsList.length > 0 && allHotelsList.length > 0 && allActivitiesList.length > 0">
-    <h1>List of all Packages</h1>
+    </div>
+  </form>
 
-    <table mat-table [dataSource]="allPackagesList" class="mat-elevation-z8">
-        <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef> Package Id </th>
-          <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-        </ng-container>
+  <button mat-raised-button color="primary" (click)="createPackage()" id="createPackageBtn">Create Package</button>
 
-        <ng-container matColumnDef="destination">
-          <th mat-header-cell *matHeaderCellDef> Destination </th>
-          <td mat-cell *matCellDef="let element"> {{element.destinationCity}}, {{element.destinationCountry}} </td>
-        </ng-container>
+  <br />
 
-        <ng-container matColumnDef="noOfDays">
-          <th mat-header-cell *matHeaderCellDef>No of Days</th>
-          <td mat-cell *matCellDef="let element"> {{element.noOfDays}} </td>
-        </ng-container>
+  <div *ngIf="createPackageAPIResponse !== undefined">{{ createPackageAPIResponse }}</div>
+</div>
 
-        <ng-container matColumnDef="flight">
-          <th mat-header-cell *matHeaderCellDef>Flight</th>
-          <td mat-cell *matCellDef="let element"> {{ getFlightDetails(element.flightId) }} </td>
-        </ng-container>
+<div class="container" *ngIf="allPackagesList.length > 0 && allFlightsList.length > 0 && allHotelsList.length > 0 && allActivitiesList.length > 0">
+  <h1>List of all Packages</h1>
 
-        <ng-container matColumnDef="hotel">
-          <th mat-header-cell *matHeaderCellDef>Hotel</th>
-          <td mat-cell *matCellDef="let element">
-            <div *ngFor="let hotel of element.hotelDaysWithId">{{ getHotelDetails(hotel.hotelId, hotel.noOfDays) }}</div>
-          </td>
-        </ng-container>
+  <table mat-table [dataSource]="allPackagesList" class="mat-elevation-z8">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> Package Id </th>
+      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
 
-        <ng-container matColumnDef="activitiesIncluded">
-          <th mat-header-cell *matHeaderCellDef>Activities</th>
-          <td mat-cell *matCellDef="let element">
-            <div *ngFor="let activityId of element.activityIdsIncluded">{{ getActivityDetails(activityId) }}</div>
-          </td>
-        </ng-container>
+    <ng-container matColumnDef="destination">
+      <th mat-header-cell *matHeaderCellDef> Destination </th>
+      <td mat-cell *matCellDef="let element"> {{element.destinationCity}}, {{element.destinationCountry}} </td>
+    </ng-container>
 
-        <ng-container matColumnDef="price">
-          <th mat-header-cell *matHeaderCellDef>Price</th>
-          <td mat-cell *matCellDef="let element"> ${{element.price}} </td>
-        </ng-container>
+    <ng-container matColumnDef="noOfDays">
+      <th mat-header-cell *matHeaderCellDef>No of Days</th>
+      <td mat-cell *matCellDef="let element"> {{element.noOfDays}} </td>
+    </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-  </div>
+    <ng-container matColumnDef="flight">
+      <th mat-header-cell *matHeaderCellDef>Flight</th>
+      <td mat-cell *matCellDef="let element"> {{ getFlightDetails(element.flightId) }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="hotel">
+      <th mat-header-cell *matHeaderCellDef>Hotel</th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngFor="let hotel of element.hotelDaysWithId">{{ getHotelDetails(hotel.hotelId, hotel.noOfDays) }}</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="activitiesIncluded">
+      <th mat-header-cell *matHeaderCellDef>Activities</th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngFor="let activityId of element.activityIdsIncluded">{{ getActivityDetails(activityId) }}</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef>Price</th>
+      <td mat-cell *matCellDef="let element"> ${{element.price}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
