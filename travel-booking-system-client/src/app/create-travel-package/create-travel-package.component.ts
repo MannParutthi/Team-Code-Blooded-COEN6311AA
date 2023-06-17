@@ -10,6 +10,8 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class CreateTravelPackageComponent implements OnInit {
 
+  disableCreatePackageButton: boolean = false;
+
   allFlightsList: any[] = [];
   allHotelsList: any[] = [];
   allActivitiesList: any[] = [];
@@ -57,8 +59,9 @@ export class CreateTravelPackageComponent implements OnInit {
       this.toastr.error('Please enter valid no of days for hotels', 'Invalid Input');
       return;
     }
-
+    this.disableCreatePackageButton = true;
     this.packageService.createPackage(payload).subscribe((res) => {
+      this.disableCreatePackageButton = false;
       this.createPackageAPIResponse = res;
       console.log("createPackageAPIResponse ==> " + this.createPackageAPIResponse);
       this.getAllPackages();

@@ -10,6 +10,8 @@ import { UpdateProfileService } from './update-profile.service';
 })
 export class UpdateProfileComponent implements OnInit {
 
+  disableUpdateProfileButton: boolean = false;
+
   today = new Date();
 
   loggedUser: any
@@ -44,7 +46,9 @@ export class UpdateProfileComponent implements OnInit {
     payload.userType = this.loggedUser.userType
     payload.password = this.loggedUser.password
     console.log("updatePackageFormGroup ==> " + JSON.stringify(payload));
+    this.disableUpdateProfileButton = true;
     this.updateProfileService.updateProfile(this.loggedUser.id, payload).subscribe((res) => {
+      this.disableUpdateProfileButton = false;
       this.updateProfileAPIResponse = res;
       console.log("createPackageAPIResponse ==> " + this.updateProfileAPIResponse);
       this.loggedUser.firstName = payload.firstName;

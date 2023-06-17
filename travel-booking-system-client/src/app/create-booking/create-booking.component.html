@@ -47,7 +47,7 @@
     </div>
   </form>
 
-  <button mat-raised-button color="primary" (click)="createBooking()" id="createBookingBtn">Create Booking</button>
+  <button mat-raised-button color="primary" (click)="createBooking()" id="createBookingBtn" [disabled]="disableCreateBookingButton">Create Booking</button>
 
   <br />
 

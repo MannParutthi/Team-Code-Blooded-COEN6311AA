@@ -95,7 +95,7 @@
     </div>
   </form>
 
-  <button mat-raised-button color="primary" (click)="updatePackage()" id="createPackageBtn">Update Package</button>
+  <button mat-raised-button color="primary" (click)="updatePackage()" id="createPackageBtn" [disabled]="disableUpdatePackageButton">Update Package</button>
 
   <br />
 

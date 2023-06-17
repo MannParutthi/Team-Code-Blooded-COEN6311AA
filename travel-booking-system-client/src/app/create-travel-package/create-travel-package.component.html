@@ -93,7 +93,7 @@
     </div>
   </form>
 
-  <button mat-raised-button color="primary" (click)="createPackage()" id="createPackageBtn">Create Package</button>
+  <button mat-raised-button color="primary" (click)="createPackage()" id="createPackageBtn" [disabled]="disableCreatePackageButton">Create Package</button>
 
   <br />
 

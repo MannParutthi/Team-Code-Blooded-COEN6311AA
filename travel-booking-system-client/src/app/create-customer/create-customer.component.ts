@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 })
 export class CreateCustomerComponent implements OnInit {
 
+  disableCreateCustomerButton: boolean = false;
+
   formGroup: FormGroup;
 
   createCustomerAPIResponse: any;
@@ -44,8 +46,10 @@ export class CreateCustomerComponent implements OnInit {
   }
 
   createCustomer() {
+    this.disableCreateCustomerButton = true;
     if (this.formGroup.valid) {
       this.createCustomerService.createCustomer(this.formGroup.getRawValue()).subscribe((res) => {
+        this.disableCreateCustomerButton = false;
         this.createCustomerAPIResponse = res;
         this.getAllCustomers();
       });

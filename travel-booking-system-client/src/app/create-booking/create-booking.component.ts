@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 })
 export class CreateBookingComponent implements OnInit {
 
+  disableCreateBookingButton: boolean = false;
+
   today = new Date();
 
   formGroup: FormGroup = this.formBuilder.group({
@@ -46,8 +48,10 @@ export class CreateBookingComponent implements OnInit {
   }
 
   createBooking() {
+    this.disableCreateBookingButton = true;
     console.log("createBookingFormGroup ==> " + JSON.stringify(this.formGroup.getRawValue()));
     this.createBookingService.createBooking(this.formGroup.getRawValue()).subscribe((res) => {
+      this.disableCreateBookingButton = false;
       console.log("createBookingAPIResponse ==> " + res);
       this.createBookingAPIResponse = res;
       this.getAllBookings();

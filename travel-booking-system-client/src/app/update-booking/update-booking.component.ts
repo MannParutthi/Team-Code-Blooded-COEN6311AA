@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 })
 export class UpdateBookingComponent implements OnInit {
 
+  disableUpdateBookingButton: boolean = false;
+
   today = new Date();
 
   formGroup: FormGroup = this.formBuilder.group({
@@ -47,8 +49,10 @@ export class UpdateBookingComponent implements OnInit {
   }
 
   updateBooking() {
+    this.disableUpdateBookingButton = true;
     console.log("createBookingFormGroup ==> " + JSON.stringify(this.formGroup.getRawValue()));
     this.updateBookingService.updateBooking(this.formGroup.getRawValue()).subscribe((res) => {
+      this.disableUpdateBookingButton = false;
       console.log("updateBookingAPIResponse ==> " + res);
       this.updateBookingAPIResponse = res;
       this.getAllBookings();

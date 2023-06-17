@@ -42,7 +42,7 @@
         </div>
     </form>
 
-    <button mat-raised-button color="primary" (click)="updateProfile()" id="updateProfileBtn">Update Profile</button>
+    <button mat-raised-button color="primary" (click)="updateProfile()" id="updateProfileBtn" [disabled]="disableUpdateProfileButton">Update Profile</button>
 
     <br />
 

@@ -30,8 +30,8 @@
           <mat-datepicker #picker></mat-datepicker>
           <mat-error *ngIf="formGroup.controls['dateOfBirth'].hasError('max')">Invalid date</mat-error>
         </mat-form-field>
-        
-        
+
+
       </div>
 
       <div fxLayout="column">
@@ -49,7 +49,7 @@
   </form>
 
   <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">
-    <button mat-raised-button color="primary" (click)="createCustomer()" id="createCustomerBtn">Signup</button>
+    <button mat-raised-button color="primary" (click)="createCustomer()" id="createCustomerBtn" [disabled]="disableCreateCustomerButton">Signup</button>
     <button mat-raised-button color="primary" routerLink="/login">Login</button>
   </div>
 
