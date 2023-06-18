@@ -1,7 +1,7 @@
-package com.codeblooded.travelbookingsystem;
+package com.codeblooded.travelbookingsystem.reports;
 
-import com.codeblooded.travelbookingsystem.bookings.BookingService;
 import com.codeblooded.travelbookingsystem.bookings.BookingsRepository;
+import com.codeblooded.travelbookingsystem.reports.TravelBookings;
 import com.codeblooded.travelbookingsystem.travelpackages.TravelPackageRepository;
 import com.codeblooded.travelbookingsystem.bookings.Booking;
 import org.springframework.beans.factory.annotation.Autowired;
