@@ -24,7 +24,6 @@ const routes: Routes = [
   { path: "update-booking", component: UpdateBookingComponent },
   { path: "get-report", component: GetReportComponent },
   { path: "view-booking", component: ViewBookingComponent },
-  { path: "get-report", component: GetReportComponent },
   { path: "update-profile", component: UpdateProfileComponent },
   { path: "**", redirectTo: 'home' }
 ];

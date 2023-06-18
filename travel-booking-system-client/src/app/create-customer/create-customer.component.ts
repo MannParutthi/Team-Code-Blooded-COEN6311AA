@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { CreateCustomerService } from './create-customer.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-create-user',
@@ -9,6 +10,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./create-customer.component.scss']
 })
 export class CreateCustomerComponent implements OnInit {
+
+  disableCreateCustomerButton: boolean = false;
 
   formGroup: FormGroup;
 
@@ -23,7 +26,8 @@ export class CreateCustomerComponent implements OnInit {
   constructor(
     private _router: Router,
     private formBuilder: FormBuilder,
-    private createCustomerService: CreateCustomerService
+    private createCustomerService: CreateCustomerService,
+    private toastr: ToastrService
   ) {
     this.formGroup = this.formBuilder.group({
       id: [0],
@@ -44,9 +48,11 @@ export class CreateCustomerComponent implements OnInit {
   }
 
   createCustomer() {
+    this.disableCreateCustomerButton = true;
     if (this.formGroup.valid) {
       this.createCustomerService.createCustomer(this.formGroup.getRawValue()).subscribe((res) => {
-        this.createCustomerAPIResponse = res;
+        this.disableCreateCustomerButton = false;
+        this.toastr.success('User created successfully!!');
         this.getAllCustomers();
       });
     } else {

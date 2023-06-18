@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UpdateProfileService } from './update-profile.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-update-profile',
@@ -10,11 +11,15 @@ import { UpdateProfileService } from './update-profile.service';
 })
 export class UpdateProfileComponent implements OnInit {
 
+  disableUpdateProfileButton: boolean = false;
+
+  today = new Date();
+
   loggedUser: any
 
   updateProfileAPIResponse: any
 
-  constructor(private _router: Router, private formBuilder: FormBuilder, private updateProfileService: UpdateProfileService) { }
+  constructor(private _router: Router, private formBuilder: FormBuilder, private updateProfileService: UpdateProfileService, private toastr: ToastrService) { }
 
   formGroup: FormGroup = this.formBuilder.group({
     'firstName': [null, []],
@@ -24,7 +29,7 @@ export class UpdateProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.loggedUser = localStorage.getItem("user")
-    if(!this.loggedUser) {
+    if (!this.loggedUser) {
       this._router.navigateByUrl('/login')
     }
     this.loggedUser = JSON.parse(this.loggedUser)
@@ -42,9 +47,12 @@ export class UpdateProfileComponent implements OnInit {
     payload.userType = this.loggedUser.userType
     payload.password = this.loggedUser.password
     console.log("updatePackageFormGroup ==> " + JSON.stringify(payload));
+    this.disableUpdateProfileButton = true;
     this.updateProfileService.updateProfile(this.loggedUser.id, payload).subscribe((res) => {
+      this.disableUpdateProfileButton = false;
       this.updateProfileAPIResponse = res;
       console.log("createPackageAPIResponse ==> " + this.updateProfileAPIResponse);
+      this.toastr.success('Profile details updated successfully!!');
       this.loggedUser.firstName = payload.firstName;
       this.loggedUser.lastName = payload.lastName;
       this.loggedUser.dateOfBirth = payload.dateOfBirth;

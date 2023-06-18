@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UpdateTravelPackageService } from './update-travel-package.service';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-update-travel-package',
@@ -9,6 +10,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./update-travel-package.component.scss']
 })
 export class UpdateTravelPackageComponent implements OnInit {
+
+  disableUpdatePackageButton: boolean = false;
 
   allFlightsList: any[] = [];
   allHotelsList: any[] = [];
@@ -37,15 +40,15 @@ export class UpdateTravelPackageComponent implements OnInit {
 
   loggedUser: any
 
-  constructor(private _router: Router, private formBuilder: FormBuilder, private packageService: UpdateTravelPackageService) { }
+  constructor(private _router: Router, private formBuilder: FormBuilder, private packageService: UpdateTravelPackageService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.loggedUser = localStorage.getItem("user")
-    if(!this.loggedUser) {
+    if (!this.loggedUser) {
       this._router.navigateByUrl('/login')
     }
     this.loggedUser = JSON.parse(this.loggedUser)
-    if(this.loggedUser.userType == "CUSTOMER") {
+    if (this.loggedUser.userType == "CUSTOMER") {
       this._router.navigateByUrl('/home')
     }
     this.getAllPackages();
@@ -60,19 +63,19 @@ export class UpdateTravelPackageComponent implements OnInit {
     let packageData = this.allPackagesList.find((p) => p.id === this.selectedTravelPackageId);
     console.log("packageData ==> " + JSON.stringify(packageData));
     const control = this.formGroup.controls['hotelDaysWithId'] as FormArray;
-    if(control.length < packageData.hotelDaysWithId.length) {
+    if (control.length < packageData.hotelDaysWithId.length) {
       let entriesToBeAdded = packageData.hotelDaysWithId.length - control.length;
-      for(let i=0; i<entriesToBeAdded; i++) {
+      for (let i = 0; i < entriesToBeAdded; i++) {
         control.push(this.formBuilder.group({
           'hotelId': [null],
           'noOfDays': [0]
         }));
       }
     }
-    else if(control.length > packageData.hotelDaysWithId.length) {
+    else if (control.length > packageData.hotelDaysWithId.length) {
       let entriesToBeRemoved = control.length - packageData.hotelDaysWithId.length;
-      for(let i=0; i<entriesToBeRemoved; i++) {
-        control.removeAt(control.length-1);
+      for (let i = 0; i < entriesToBeRemoved; i++) {
+        control.removeAt(control.length - 1);
       }
     }
     this.formGroup.patchValue(packageData);
@@ -83,9 +86,22 @@ export class UpdateTravelPackageComponent implements OnInit {
     let payload = this.formGroup.getRawValue();
     payload.id = this.selectedTravelPackageId;
     console.log("updatePackageFormGroup ==> " + JSON.stringify(payload));
+
+    let totalHotelDaysBooked = 0;
+    payload.hotelDaysWithId.forEach((hotel: any) => {
+      totalHotelDaysBooked += hotel.noOfDays;
+    });
+
+    if (totalHotelDaysBooked != payload.noOfDays) {
+      this.toastr.error('Please enter valid no of days for hotels', 'Invalid Input');
+      return;
+    }
+    this.disableUpdatePackageButton = true;
     this.packageService.updatePackage(this.selectedTravelPackageId, payload).subscribe((res) => {
+      this.disableUpdatePackageButton = false;
       this.updatePackageAPIResponse = res;
       console.log("createPackageAPIResponse ==> " + this.updatePackageAPIResponse);
+      this.toastr.success('Package details updated successfully!!');
       this.getAllPackages();
     });
   }
@@ -141,7 +157,7 @@ export class UpdateTravelPackageComponent implements OnInit {
       price += activityPrice;
     });
 
-    this.formGroup.patchValue({price: price});
+    this.formGroup.patchValue({ price: price });
   }
 
   get hotelDaysWithId() {
@@ -151,36 +167,36 @@ export class UpdateTravelPackageComponent implements OnInit {
   addHotelDaysWithId() {
     const control = this.formGroup.controls['hotelDaysWithId'] as FormArray;
     let totalNoOfDaysOfPackage = this.formGroup.getRawValue().noOfDays ? this.formGroup.getRawValue().noOfDays : 0;
-    if(control.length > 0) {
+    if (control.length > 0) {
       let totalNoOfDaysBooked = 0;
-      for(let i=0; i<control.length; i++) {
+      for (let i = 0; i < control.length; i++) {
         totalNoOfDaysBooked += control.get(i.toString())?.get('noOfDays')?.value;
       }
-      if(totalNoOfDaysBooked >= totalNoOfDaysOfPackage) {
-        let lastHotelEntryDays = control.get((control.length-1).toString())?.get('noOfDays')?.value;
-        control.get((control.length-1).toString())?.get('noOfDays')?.setValue(totalNoOfDaysOfPackage - (totalNoOfDaysBooked - lastHotelEntryDays));
+      if (totalNoOfDaysBooked >= totalNoOfDaysOfPackage) {
+        let lastHotelEntryDays = control.get((control.length - 1).toString())?.get('noOfDays')?.value;
+        control.get((control.length - 1).toString())?.get('noOfDays')?.setValue(totalNoOfDaysOfPackage - (totalNoOfDaysBooked - lastHotelEntryDays));
       }
-      else if(control.get((control.length-1).toString())?.get('hotelId')?.value == null || control.get((control.length-1).toString())?.get('noOfDays')?.value == 0) {
-        control.get((control.length-1).toString())?.get('hotelId')?.setValue(this.allHotelsList[0].id);
-        control.get((control.length-1).toString())?.get('noOfDays')?.setValue(totalNoOfDaysOfPackage - totalNoOfDaysBooked);
+      else if (control.get((control.length - 1).toString())?.get('hotelId')?.value == null || control.get((control.length - 1).toString())?.get('noOfDays')?.value == 0) {
+        control.get((control.length - 1).toString())?.get('hotelId')?.setValue(this.allHotelsList[0].id);
+        control.get((control.length - 1).toString())?.get('noOfDays')?.setValue(totalNoOfDaysOfPackage - totalNoOfDaysBooked);
       }
       else {
         control.push(this.formBuilder.group({
           'hotelId': [null],
           'noOfDays': [0]
         }));
-        control.get((control.length-1).toString())?.get('hotelId')?.setValue(this.allHotelsList[0].id);
-        control.get((control.length-1).toString())?.get('noOfDays')?.setValue(totalNoOfDaysOfPackage - totalNoOfDaysBooked);
+        control.get((control.length - 1).toString())?.get('hotelId')?.setValue(this.allHotelsList[0].id);
+        control.get((control.length - 1).toString())?.get('noOfDays')?.setValue(totalNoOfDaysOfPackage - totalNoOfDaysBooked);
       }
     }
-    else if(control.length === 0) {
+    else if (control.length === 0) {
       control.push(this.formBuilder.group({
         'hotelId': [null],
         'noOfDays': [0]
       }));
-      if(totalNoOfDaysOfPackage) {
-        control.get((control.length-1).toString())?.get('hotelId')?.setValue(this.allHotelsList[0].id);
-        control.get((control.length-1).toString())?.get('noOfDays')?.setValue(totalNoOfDaysOfPackage);
+      if (totalNoOfDaysOfPackage) {
+        control.get((control.length - 1).toString())?.get('hotelId')?.setValue(this.allHotelsList[0].id);
+        control.get((control.length - 1).toString())?.get('noOfDays')?.setValue(totalNoOfDaysOfPackage);
       }
     }
   }
@@ -192,15 +208,15 @@ export class UpdateTravelPackageComponent implements OnInit {
 
   getFlightDetails(flightId: any) {
     let flight = this.unFilteredFlightsList.find((flight) => flight.id === flightId);
-    return flight.source  + ' to ' + flight.destination + ' - $' + flight.pricePerSeat + ' (' + flight.airline + ')';
+    return flight.source + ' to ' + flight.destination + ' - $' + flight.pricePerSeat + ' (' + flight.airline + ')';
   }
 
   getHotelDetails(hotelId: any, noOfDays: any) {
     let hotel = this.unFilteredHotelsList.find((hotel) => hotel.id === hotelId);
-    if(hotel.rating == 'THREE_STAR') {
+    if (hotel.rating == 'THREE_STAR') {
       return hotel.name + ' - $' + hotel.pricePerRoom + ' (' + noOfDays + ' days)' + ' - ★★★';
     }
-    else if(hotel.rating == 'FOUR_STAR') {
+    else if (hotel.rating == 'FOUR_STAR') {
       return hotel.name + ' - $' + hotel.pricePerRoom + ' (' + noOfDays + ' days)' + ' - ★★★★';
     }
     else {

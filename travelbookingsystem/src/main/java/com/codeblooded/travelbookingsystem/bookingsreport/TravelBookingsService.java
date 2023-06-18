@@ -1,6 +1,5 @@
-package com.codeblooded.travelbookingsystem;
+package com.codeblooded.travelbookingsystem.bookingsreport;
 
-import com.codeblooded.travelbookingsystem.bookings.BookingService;
 import com.codeblooded.travelbookingsystem.bookings.BookingsRepository;
 import com.codeblooded.travelbookingsystem.travelpackages.TravelPackageRepository;
 import com.codeblooded.travelbookingsystem.bookings.Booking;
@@ -25,7 +24,7 @@ public class TravelBookingsService {
             int totalBookings = 0;
             int totalRevenue = 0;
             for(Booking booking : bookingsRepository.findAll()) {
-                if(booking.getTravelPackageId() == travelPackage.getId()) {
+                if(booking.getTravelPackageId() == travelPackage.getId() && booking.getBookingStatus() == Booking.BookingStatus.CONFIRMED) {
                     totalBookings++;
                 }
             }
