@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { CreateBookingService } from './create-booking.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-create-booking',
@@ -33,7 +34,7 @@ export class CreateBookingComponent implements OnInit {
 
   loggedUser: any
 
-  constructor(private formBuilder: FormBuilder, private createBookingService: CreateBookingService, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private createBookingService: CreateBookingService, private router: Router, private toastr: ToastrService) {
     this.loggedUser = localStorage.getItem("user")
     if (!this.loggedUser) {
       this.router.navigateByUrl('/login')
@@ -53,7 +54,7 @@ export class CreateBookingComponent implements OnInit {
     this.createBookingService.createBooking(this.formGroup.getRawValue()).subscribe((res) => {
       this.disableCreateBookingButton = false;
       console.log("createBookingAPIResponse ==> " + res);
-      this.createBookingAPIResponse = res;
+      this.toastr.success('Booking created successfully!!');
       this.getAllBookings();
 
       const bookingId = JSON.parse(res).bookingId;
@@ -61,14 +62,14 @@ export class CreateBookingComponent implements OnInit {
       // Navigate to the payment page with the booking ID parameter.
       this.router.navigate(['/payment', bookingId]);
     }, (error) => {
-      console.log("createBookingAPIError ==> " + error);
+      this.toastr.error(error);
     });
   }
 
   getAllBookings() {
     this.createBookingService.getAllBookings().subscribe((res) => {
       this.allBookingsList = res;
-      if(this.loggedUser.userType == "CUSTOMER") {
+      if (this.loggedUser.userType == "CUSTOMER") {
         this.allBookingsList = this.allBookingsList.filter((booking) => booking.customerId === this.loggedUser.id)
       }
       console.log("getAllBookings ==> " + res);
@@ -77,7 +78,7 @@ export class CreateBookingComponent implements OnInit {
 
   getAllCustomers() {
     this.createBookingService.getAllCustomers().subscribe((res) => {
-    this.allCustomersList = res;
+      this.allCustomersList = res;
       console.log("getAllCustomers ==> " + res);
     });
   }

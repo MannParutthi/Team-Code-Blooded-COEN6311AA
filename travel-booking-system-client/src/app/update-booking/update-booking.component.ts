@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { UpdateBookingService } from './update-booking.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-update-booking',
@@ -34,7 +35,7 @@ export class UpdateBookingComponent implements OnInit {
   displayedColumns: string[] = ['id', 'customerId', 'travelPackageId', 'departureDate', 'bookingStatus'];
   selectedBookingId: any;
 
-  constructor(private formBuilder: FormBuilder, private updateBookingService: UpdateBookingService, private _router: Router) {
+  constructor(private formBuilder: FormBuilder, private updateBookingService: UpdateBookingService, private _router: Router, private toastr: ToastrService) {
     this.loggedUser = localStorage.getItem("user")
     if (!this.loggedUser) {
       this._router.navigateByUrl('/login')
@@ -54,7 +55,7 @@ export class UpdateBookingComponent implements OnInit {
     this.updateBookingService.updateBooking(this.formGroup.getRawValue()).subscribe((res) => {
       this.disableUpdateBookingButton = false;
       console.log("updateBookingAPIResponse ==> " + res);
-      this.updateBookingAPIResponse = res;
+      this.toastr.success('Booking details updated successfully!!');
       this.getAllBookings();
     });
   }
@@ -62,7 +63,7 @@ export class UpdateBookingComponent implements OnInit {
   getAllBookings() {
     this.updateBookingService.getAllBookings().subscribe((res) => {
       this.allBookingsList = res;
-      if(this.loggedUser.userType == "CUSTOMER") {
+      if (this.loggedUser.userType == "CUSTOMER") {
         this.allBookingsList = this.allBookingsList.filter((booking) => booking.customerId === this.loggedUser.id)
       }
       console.log("getAllBookings ==> " + res);
@@ -71,7 +72,7 @@ export class UpdateBookingComponent implements OnInit {
 
   getAllCustomers() {
     this.updateBookingService.getAllCustomers().subscribe((res) => {
-    this.allCustomersList = res;
+      this.allCustomersList = res;
       console.log("getAllCustomers ==> " + res);
     });
   }
