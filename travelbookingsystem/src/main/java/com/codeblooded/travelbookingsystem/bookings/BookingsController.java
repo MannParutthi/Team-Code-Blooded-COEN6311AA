@@ -62,7 +62,7 @@ public class BookingsController {
         User customer = userRepository.findById(booking.getCustomerId());
         if (customer != null) {
             long bookingId = booking.getId();
-            emailService.sendBookingConfirmationEmail(customer.getEmail(), customer.getId(), bookingId, 11100, booking.getTravelPackageId(), booking.getDepartureDate(), booking.getBookingStatus().name());
+            emailService.sendBookingConfirmationEmail(customer.getEmail(), customer.getId(), bookingId, booking.getPaymentId(), booking.getTravelPackageId(), booking.getDepartureDate(), booking.getBookingStatus().name());
         }
 
         return new ResponseEntity<>(new BookingResponse(bookingsRepository.BOOKING_CREATED_PAYMENT_PENDING, booking.getId()), HttpStatus.CREATED);
@@ -90,7 +90,7 @@ public class BookingsController {
 
         if (customer != null) {
             String bookingStatus = booking.getBookingStatus().name();
-            emailService.sendBookingUpdateEmail(customer.getEmail(), customer.getId(), booking.getId(), 11100, booking.getTravelPackageId(), booking.getDepartureDate(), bookingStatus);
+            emailService.sendBookingUpdateEmail(customer.getEmail(), customer.getId(), booking.getId(), booking.getPaymentId(), booking.getTravelPackageId(), booking.getDepartureDate(), bookingStatus);
         }
         return new ResponseEntity<String>(bookingsRepository.BOOKING_UPDATED_SUCCESSFULLY, HttpStatus.OK);
     }
@@ -132,7 +132,7 @@ public class BookingsController {
 
         if (customer != null) {
             String bookingStatus = booking.getBookingStatus().name();
-            emailService.sendBookingUpdateEmail(customer.getEmail(), customer.getId(), booking.getId(), 11100, booking.getTravelPackageId(), booking.getDepartureDate(), bookingStatus);
+            emailService.sendBookingUpdateEmail(customer.getEmail(), customer.getId(), booking.getId(), booking.getPaymentId(), booking.getTravelPackageId(), booking.getDepartureDate(), bookingStatus);
         }
 
         return new ResponseEntity<>("Booking confirmed for ID: " + bookingId, HttpStatus.OK);
@@ -159,7 +159,7 @@ public class BookingsController {
 
         if (customer != null) {
             String bookingStatus = booking.getBookingStatus().name();
-            emailService.sendBookingUpdateEmail(customer.getEmail(), customer.getId(), booking.getId(), 11100, booking.getTravelPackageId(), booking.getDepartureDate(), bookingStatus);
+            emailService.sendBookingUpdateEmail(customer.getEmail(), customer.getId(), booking.getId(), booking.getPaymentId(), booking.getTravelPackageId(), booking.getDepartureDate(), bookingStatus);
         }
 
         return new ResponseEntity<>("Booking cancelled for ID: " + bookingId, HttpStatus.OK);

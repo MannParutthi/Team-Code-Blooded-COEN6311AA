@@ -12,32 +12,34 @@ import { ToastrService } from 'ngx-toastr';
 export class UserLoginComponent implements OnInit {
 
   formGroup: FormGroup = this.formBuilder.group({
-    'email': [null, Validators.required],
-    'password': [null, Validators.required]
+    'email': [null, Validators.required], // Form control for email input field
+    'password': [null, Validators.required] // Form control for password input field
   });
 
-  loggedUser: any;
+  loggedUser: any; // Stores the logged-in user data
 
   constructor(private _router: Router, private formBuilder: FormBuilder, private userLoginService: UserLoginService, private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
+    // If user is already logged in, redirect to home page
     if(localStorage.getItem("user")!=null) {
       this._router.navigateByUrl('/home')
     }
   }
 
   loginUser() {
+    // Send a login request to the server with form data
     this.userLoginService.loginUser(this.formGroup.getRawValue()).subscribe(
       (res) => {
-      this.loggedUser = res;
-      localStorage.setItem("user", JSON.stringify(res))
-      this.toastr.success('Login Successful', 'Welcome');
-      this._router.navigateByUrl('/home')
-    },
-    (error) => {
-      this.toastr.error('Incorrect username or password', 'Login Failed');
-    }
+        this.loggedUser = res; // Store the logged-in user data
+        localStorage.setItem("user", JSON.stringify(res)) // Store user data in local storage
+        this.toastr.success('Login Successful', 'Welcome'); // Show success message using Toastr
+        this._router.navigateByUrl('/home'); // Redirect to home page after successful login
+      },
+      (error) => {
+        this.toastr.error('Incorrect username or password', 'Login Failed'); // Show error message using Toastr
+      }
     );
   }
 

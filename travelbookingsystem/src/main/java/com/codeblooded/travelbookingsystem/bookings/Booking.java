@@ -34,11 +34,11 @@ public class Booking {
     private String departureDate;
 
     @Column(name = "paymentId", nullable = false)
-    private long paymentId;
+    private String paymentId;
 
-    public enum BookingStatus { CONFIRMED, CANCELLED, PENDING }
+    public enum BookingStatus { CONFIRMED, CANCELLED }
     @Enumerated(EnumType.STRING)
     @Column(name = "bookingStatus", nullable = false)
-    private BookingStatus bookingStatus = BookingStatus.PENDING;
+    private BookingStatus bookingStatus = BookingStatus.CONFIRMED;
 }
 

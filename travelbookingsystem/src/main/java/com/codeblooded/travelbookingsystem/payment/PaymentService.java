@@ -42,7 +42,7 @@ public class PaymentService {
 
             return paymentToken;
         } catch (StripeException e) {
-            throw new RuntimeException("PaymentService - function: createCardToken - " + e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
 
     }
@@ -53,7 +53,7 @@ public class PaymentService {
             Map <String, Object> chargeParams = new HashMap<>();
             chargeParams.put("amount", (int) (paymentRequest.getAmount() * 100));
             chargeParams.put("currency", "CAD");
-            chargeParams.put("description", "Payment for booking id: " + paymentRequest.getBookingId().toString());
+            chargeParams.put("description", "Payment for travel booking system");
             chargeParams.put("source", paymentRequest.getStripeToken());
 
             Map <String, Object> metaData = new HashMap<>();
@@ -70,7 +70,7 @@ public class PaymentService {
             return paymentRequest;
         }
         catch (StripeException e) {
-            throw new RuntimeException("PaymentService - function: makePayment - " + e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
     }
 
