@@ -30,6 +30,8 @@ import { UpdateProfileComponent } from './update-profile/update-profile.componen
 import { SearchTravelPackageComponent } from './search-travel-package/search-travel-package.component';
 import { ViewBookingComponent } from './view-booking/view-booking.component';
 
+import { ToastrModule } from 'ngx-toastr';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -64,6 +66,7 @@ import { ViewBookingComponent } from './view-booking/view-booking.component';
     MatTableModule,
     MatListModule,
     HttpClientModule,
+    ToastrModule.forRoot(),
   ],
   providers: [MatDatepickerModule],
   bootstrap: [AppComponent]

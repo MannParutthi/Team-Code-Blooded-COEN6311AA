@@ -1,8 +1,22 @@
 <div class="container" *ngIf="reportData.length == 0">
+  <button class="btn btn-primary" onclick="history.back()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left"
+      viewBox="0 0 16 16">
+      <path fill-rule="evenodd"
+        d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+    </svg>
+  </button>
   <h1 class="centeredText"> No Bookings Made Yet !!! </h1>
 </div>
 
 <div class="container" *ngIf="reportData.length > 0">
+  <button class="btn btn-primary" onclick="history.back()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left"
+      viewBox="0 0 16 16">
+      <path fill-rule="evenodd"
+        d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+    </svg>
+  </button>
   <h1>Bookings Report By Travel Package</h1>
   <table mat-table [dataSource]="reportData" class="mat-elevation-z8">
     <ng-container matColumnDef="packageid">
@@ -12,7 +26,8 @@
 
     <ng-container matColumnDef="destination">
       <th mat-header-cell *matHeaderCellDef> Travel Package Destination </th>
-      <td mat-cell *matCellDef="let element"> {{element.travelPackage.destinationCity}}, {{element.travelPackage.destinationCountry}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.travelPackage.destinationCity}},
+        {{element.travelPackage.destinationCountry}} </td>
     </ng-container>
 
     <ng-container matColumnDef="totalNumberOfBookings">
