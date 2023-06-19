@@ -17,17 +17,33 @@ public class HotelController {
         this.hotelRepository = hotelRepository;
     }
 
+    /**
+     * Creates a new hotel.
+     *
+     * @param hotel The hotel object to be created.
+     * @return The created hotel.
+     */
     @PostMapping("/create")
     public Hotel createHotel(@RequestBody Hotel hotel) {
         return hotelRepository.save(hotel);
     }
 
+    /**
+     * Retrieves all hotels.
+     *
+     * @return A response entity containing all hotels.
+     */
     @GetMapping("/all")
     public ResponseEntity<Iterable<Hotel>> getAllHotels() {
         Iterable<Hotel> hotels = hotelRepository.findAll();
         return ResponseEntity.ok(hotels);
     }
 
+    /**
+     * Deletes a hotel by its ID.
+     *
+     * @param id The ID of the hotel to be deleted.
+     */
     @DeleteMapping("/{id}")
     public void deleteHotel(@PathVariable long id) {
         hotelRepository.deleteById(id);

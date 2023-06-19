@@ -11,14 +11,13 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class CreateBookingComponent implements OnInit {
 
-  disableCreateBookingButton: boolean = false;
+  disableCreateBookingButton: boolean = false; // Variable to track the disabling state of the create booking button
 
-  today = new Date();
+  today = new Date(); // Variable to store the current date
 
-  showPaymentForm: boolean = false;
+  showPaymentForm: boolean = false; // Variable to control the visibility of the payment form
 
-  paymentSubmitted: boolean = false;  
-  
+  paymentSubmitted: boolean = false; // Variable to track if payment form is submitted
 
   formGroup: FormGroup = this.formBuilder.group({
     'id': [0, []],
@@ -30,15 +29,15 @@ export class CreateBookingComponent implements OnInit {
     'expirationDate': [null, Validators.required],
     'cvv': [null, Validators.required],
     'paymentId': [null, []]
-  });
+  }); // Form group for managing the form controls
 
   chargeCard() {
     if (this.formGroup.valid) {
       const { creditCardNumber, expirationDate, cvv } = this.formGroup.value;
-  
+
       const expirationMonth = expirationDate.slice(0, 2);
       const expirationYear = expirationDate.slice(3);
-      
+
       // console.log('Credit Card Number:', creditCardNumber);
       // console.log('Expiration Month:', expirationMonth);
       // console.log('Expiration Year:', expirationYear);
@@ -54,7 +53,7 @@ export class CreateBookingComponent implements OnInit {
 
       this.createBookingService.getToken(paymentData).subscribe((response) => {
         const stripeToken = response.token;
-    
+
         const travelPackage = this.allTravelPackagesList.find((travelPackageId) => travelPackageId.id === this.formGroup.value.travelPackageId);
         const bookingData = {
           stripeToken: stripeToken,
@@ -62,7 +61,7 @@ export class CreateBookingComponent implements OnInit {
           amount: travelPackage.price,
           message: 'Booking for Travel booking system - Codeblooded',
         };
-    
+
         this.createBookingService.chargeCard(bookingData).subscribe((res) => {
           console.log('response from chargeCard API call:->', res);
           this.formGroup.patchValue({
@@ -84,24 +83,24 @@ export class CreateBookingComponent implements OnInit {
     }
   }
 
-  createBookingAPIResponse: any;
+  createBookingAPIResponse: any; // Variable to store the response of the create booking API
 
-  allBookingsList: any[] = [];
+  allBookingsList: any[] = []; // Array to store all bookings
 
-  allCustomersList: any[] = [];
+  allCustomersList: any[] = []; // Array to store all customers
 
-  allTravelPackagesList: any[] = [];
+  allTravelPackagesList: any[] = []; // Array to store all travel packages
 
-  displayedColumns: string[] = ['id', 'customerId', 'travelPackageId', 'departureDate', 'bookingStatus'];
+  displayedColumns: string[] = ['id', 'customerId', 'travelPackageId', 'departureDate', 'bookingStatus']; // Columns to display in the bookings table
 
-  loggedUser: any
+  loggedUser: any; // Variable to store the logged-in user information
 
   constructor(private formBuilder: FormBuilder, private createBookingService: CreateBookingService, private router: Router, private toastr: ToastrService) {
-    this.loggedUser = localStorage.getItem("user")
+    this.loggedUser = localStorage.getItem("user");
     if (!this.loggedUser) {
-      this.router.navigateByUrl('/login')
+      this.router.navigateByUrl('/login');
     }
-    this.loggedUser = JSON.parse(this.loggedUser)
+    this.loggedUser = JSON.parse(this.loggedUser);
   }
 
   ngOnInit(): void {
@@ -132,7 +131,7 @@ export class CreateBookingComponent implements OnInit {
     this.createBookingService.getAllBookings().subscribe((res) => {
       this.allBookingsList = res;
       if (this.loggedUser.userType == "CUSTOMER") {
-        this.allBookingsList = this.allBookingsList.filter((booking) => booking.customerId === this.loggedUser.id)
+        this.allBookingsList = this.allBookingsList.filter((booking) => booking.customerId === this.loggedUser.id);
       }
       console.log("getAllBookings ==> " + res);
     });
@@ -167,5 +166,4 @@ export class CreateBookingComponent implements OnInit {
     }
     return '';
   }
-
 }

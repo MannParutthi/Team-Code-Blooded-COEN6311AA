@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/tourist-packages")
 public class TravelPackagesController {
+
     @Autowired
     private TravelPackageRepository travelPackageRepository;
 
@@ -18,6 +19,12 @@ public class TravelPackagesController {
         this.travelPackageRepository = travelPackageRepository;
     }
 
+    /**
+     * Creates a new travel package.
+     *
+     * @param travelPackage The travel package object to be created.
+     * @return A response entity with a success message or an error message if the travel package already exists.
+     */
     @PostMapping("/create")
     public ResponseEntity<String> createTravelPackage(@RequestBody TravelPackage travelPackage) {
         if (travelPackageRepository.existsById(travelPackage.getId())) {
@@ -28,6 +35,13 @@ public class TravelPackagesController {
         return new ResponseEntity<>(TravelPackageService.PKG_CREATED_SUCCESSFULLY, HttpStatus.OK);
     }
 
+    /**
+     * Updates an existing travel package.
+     *
+     * @param travelPackageId The ID of the travel package to be updated.
+     * @param travelPackage   The updated travel package object.
+     * @return A response entity with a success message or an error message if the travel package is not found.
+     */
     @PutMapping("/update/{travelPackageId}")
     public ResponseEntity<String> updateTravelPackage(@PathVariable("travelPackageId") Long travelPackageId, @RequestBody TravelPackage travelPackage) {
         if (!travelPackageRepository.existsById(travelPackageId)) {
@@ -39,12 +53,23 @@ public class TravelPackagesController {
         return new ResponseEntity<>(TravelPackageService.PKG_UPDATED_SUCCESSFULLY, HttpStatus.OK);
     }
 
+    /**
+     * Retrieves all travel packages.
+     *
+     * @return A response entity containing all travel packages.
+     */
     @GetMapping("/all")
     public ResponseEntity<Iterable<TravelPackage>> getAllTravelPackages() {
         Iterable<TravelPackage> travelPackages = travelPackageRepository.findAll();
         return ResponseEntity.ok(travelPackages);
     }
 
+    /**
+     * Searches for travel packages by destination city.
+     *
+     * @param destinationCity The destination city to search for.
+     * @return A response entity containing the matched travel packages.
+     */
     @GetMapping("/search")
     public ResponseEntity<Iterable<TravelPackage>> searchTravelPackages(@RequestParam("destinationCity") String destinationCity) {
         Iterable<TravelPackage> travelPackages = travelPackageRepository.findByDestinationCity(destinationCity);

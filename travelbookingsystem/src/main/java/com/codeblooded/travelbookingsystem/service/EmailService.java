@@ -16,7 +16,6 @@ import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
 
-
 @Service
 public class EmailService {
     private final JavaMailSender javaMailSender;
@@ -26,6 +25,13 @@ public class EmailService {
         this.javaMailSender = javaMailSender;
     }
 
+    /**
+     * Sends an email with a template using the JavaMailSender.
+     *
+     * @param recipientEmail The recipient's email address.
+     * @param subject        The subject of the email.
+     * @param htmlContent    The HTML content of the email.
+     */
     private void sendEmailWithTemplate(String recipientEmail, String subject, String htmlContent) {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper;
@@ -42,6 +48,11 @@ public class EmailService {
         }
     }
 
+    /**
+     * Sends an account registration email to the recipient.
+     *
+     * @param recipientEmail The recipient's email address.
+     */
     public void sendAccountRegistrationEmail(String recipientEmail) {
         String templateFilePath = "Email-Templates/NewUserRegistrationTemplate.html";
         String subject = "Concordia Travel Booking System: Welcome to Concordia Travel Booking System";
@@ -56,11 +67,22 @@ public class EmailService {
             String htmlContent = writer.toString();
             sendEmailWithTemplate(recipientEmail, subject, htmlContent);
         } catch (IOException e) {
-            System.out.println("----- Error in reading HTML Template: " +  templateFilePath +"-----");
+            System.out.println("----- Error in reading HTML Template: " + templateFilePath + "-----");
         }
     }
 
-    public void sendBookingConfirmationEmail(String emailAddress, long customerID, long bookingID, String paymentID, long travelPackageID, String departureDate, String bookingStatus) {
+    /**
+     * Sends a booking confirmation email to the recipient.
+     *
+     * @param emailAddress      The recipient's email address.
+     * @param customerID        The customer ID.
+     * @param bookingID         The booking ID.
+     * @param paymentID         The payment ID.
+     * @param travelPackageID   The travel package ID.
+     * @param departureDate     The departure date.
+     * @param bookingStatus     The booking status.
+     */
+    public void sendBookingConfirmationEmail(String emailAddress, long customerID, long bookingID, long paymentID, long travelPackageID, String departureDate, String bookingStatus) {
         String templateFilePath = "Email-Templates/BookingConfirmationTemplate.html";
         String subject = "Concordia Travel Booking System: Booking Confirmation";
         BookingConfirmationTemplateData bookingConfirmationTemplateData = new BookingConfirmationTemplateData(customerID, bookingID, paymentID, travelPackageID, departureDate, bookingStatus);
@@ -74,11 +96,22 @@ public class EmailService {
             String htmlContent = writer.toString();
             sendEmailWithTemplate(emailAddress, subject, htmlContent);
         } catch (IOException e) {
-            System.out.println("----- Error in reading HTML Template: " +  templateFilePath +"-----");
+            System.out.println("----- Error in reading HTML Template: " + templateFilePath + "-----");
         }
     }
 
-    public void sendBookingUpdateEmail(String emailAddress, long customerID, long bookingID, String paymentID , long travelPackageID, String departureDate, String bookingStatus) {
+    /**
+     * Sends a booking update email to the recipient.
+     *
+     * @param emailAddress      The recipient's email address.
+     * @param customerID        The customer ID.
+     * @param bookingID         The booking ID.
+     * @param paymentID         The payment ID.
+     * @param travelPackageID   The travel package ID.
+     * @param departureDate     The departure date.
+     * @param bookingStatus     The booking status.
+     */
+    public void sendBookingUpdateEmail(String emailAddress, long customerID, long bookingID, long paymentID, long travelPackageID, String departureDate, String bookingStatus) {
         String templateFilePath = "Email-Templates/BookingUpdateTemplate.html";
         String subject = "Concordia Travel Booking System: Booking Confirmation";
         BookingUpdateTemplateData bookingUpdateTemplateData = new BookingUpdateTemplateData(customerID, bookingID, paymentID, travelPackageID, departureDate, bookingStatus);
@@ -92,11 +125,13 @@ public class EmailService {
             String htmlContent = writer.toString();
             sendEmailWithTemplate(emailAddress, subject, htmlContent);
         } catch (IOException e) {
-            System.out.println("----- Error in reading HTML Template: " +  templateFilePath +"-----");
+            System.out.println("----- Error in reading HTML Template: " + templateFilePath + "-----");
         }
     }
 
-
+    /**
+     * Inner class representing data for the account registration email template.
+     */
     private static class AccountRegistrationTemplateData {
         private final String recipientEmailAddress;
 
@@ -109,6 +144,9 @@ public class EmailService {
         }
     }
 
+    /**
+     * Inner class representing data for the booking confirmation email template.
+     */
     private static class BookingConfirmationTemplateData {
         private final long customerID;
         private final long bookingID;
@@ -117,8 +155,7 @@ public class EmailService {
         private final String departureDate;
         private final String bookingStatus;
 
-
-        private BookingConfirmationTemplateData(long customerID, long bookingID, String paymentID, long travelPackageID, String departureDate, String bookingStatus) {
+        private BookingConfirmationTemplateData(long customerID, long bookingID, long paymentID, long travelPackageID, String departureDate, String bookingStatus) {
             this.customerID = customerID;
             this.bookingID = bookingID;
             this.paymentID = paymentID;
@@ -152,6 +189,9 @@ public class EmailService {
         }
     }
 
+    /**
+     * Inner class representing data for the booking update email template.
+     */
     private static class BookingUpdateTemplateData {
         private final long customerID;
         private final long bookingID;
@@ -176,6 +216,7 @@ public class EmailService {
         public long getBookingID() {
             return bookingID;
         }
+        
         public String getPaymentID() {
             return paymentID;
         }
