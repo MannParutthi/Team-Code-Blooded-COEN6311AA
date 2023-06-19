@@ -30,4 +30,12 @@ export class CreateBookingService {
   confirmBooking(bookingId: string): Observable<any> {
     return this.http.put(`${this.baseUrl}/bookings/confirm/${bookingId}`, null, { responseType: 'text' }) as Observable<any>;
   }
+
+  getToken(paymentData: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/payments/createPaymentToken`, paymentData) as Observable<any>;
+  }
+
+  chargeCard(paymentData: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/payments/chargeCard`, paymentData) as Observable<any>;
+  }
 }
