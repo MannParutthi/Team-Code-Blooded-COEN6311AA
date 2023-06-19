@@ -64,9 +64,34 @@
     </div>
   </form>
 
-  <button mat-raised-button color="primary" (click)="createBooking()" id="createBookingBtn"
-    [disabled]="disableCreateBookingButton">Create Booking</button>
+  <button mat-raised-button color="primary" (click)="showPaymentForm = true" id="payNowButton"
+  [disabled]="disableCreateBookingButton">Pay Now</button>
+  <br>
 
-  <br />
+  <!-- <button mat-raised-button color="primary" (click)="createBooking()" id="createBookingBtn"
+    [disabled]="disableCreateBookingButton">Pay Now</button>
+  <br /> -->
+
+  <form [formGroup]="formGroup" *ngIf="showPaymentForm">
+    <h1>Payment Information</h1>
+    <mat-form-field appearance="outline" class="field">
+      <mat-label>Credit Card Number</mat-label>
+      <input matInput formControlName="creditCardNumber" id="creditCardNumber" minlength="16" maxlength="16" [value]="formGroup.get('creditCardNumber')?.value">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="field">
+      <mat-label>Expiration Date</mat-label>
+      <input matInput formControlName="expirationDate" id="expirationDate" placeholder="MM/YY" maxlength="5">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="field">
+      <mat-label>CVV</mat-label>
+      <input matInput formControlName="cvv" id="cvv" maxlength="3" minlength="3">
+    </mat-form-field>
+
+    <br>
+    <button mat-raised-button color="primary" (click)="chargeCard()">Charge Card</button>
+    <br>
+  </form>
 
 </div>

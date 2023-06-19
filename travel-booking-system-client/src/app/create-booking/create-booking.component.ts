@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CreateBookingService } from './create-booking.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -15,12 +15,74 @@ export class CreateBookingComponent implements OnInit {
 
   today = new Date();
 
+  showPaymentForm: boolean = false;
+
+  paymentSubmitted: boolean = false;  
+  
+
   formGroup: FormGroup = this.formBuilder.group({
     'id': [0, []],
     'customerId': [null, []],
     'travelPackageId': [null, []],
-    'departureDate': [null, []]
+    'departureDate': [null, []],
+
+    'creditCardNumber': [null, Validators.required],
+    'expirationDate': [null, Validators.required],
+    'cvv': [null, Validators.required],
+    'paymentId': [null, []]
   });
+
+  chargeCard() {
+    if (this.formGroup.valid) {
+      const { creditCardNumber, expirationDate, cvv } = this.formGroup.value;
+  
+      const expirationMonth = expirationDate.slice(0, 2);
+      const expirationYear = expirationDate.slice(3);
+      
+      // console.log('Credit Card Number:', creditCardNumber);
+      // console.log('Expiration Month:', expirationMonth);
+      // console.log('Expiration Year:', expirationYear);
+      // console.log('CVV:', cvv);
+
+      const paymentData = {
+        cardNumber: creditCardNumber,
+        expMonth: expirationMonth,
+        expYear: expirationYear,
+        cvc: cvv,
+        username: 'username', // Replace 'username' with the actual username value
+      };
+
+      this.createBookingService.getToken(paymentData).subscribe((response) => {
+        const stripeToken = response.token;
+    
+        const travelPackage = this.allTravelPackagesList.find((travelPackageId) => travelPackageId.id === this.formGroup.value.travelPackageId);
+        const bookingData = {
+          stripeToken: stripeToken,
+          username: 'username', // Replace 'username' with the actual username value
+          amount: travelPackage.price,
+          message: 'Booking for Travel booking system - Codeblooded',
+        };
+    
+        this.createBookingService.chargeCard(bookingData).subscribe((res) => {
+          console.log('response from chargeCard API call:->', res);
+          this.formGroup.patchValue({
+            paymentId: res.chargeId,
+          });
+          this.createBooking();
+        },
+        (err) => {
+          console.log('error from chargeCard API call:->', err);
+          this.toastr.error(err.error.message.split(';')[0]);
+        });
+      },
+      (err) => {
+        console.log('error from getToken API call:->', err);
+        this.toastr.error(err.error.message.split(';')[0]);
+      });
+
+      this.paymentSubmitted = true;
+    }
+  }
 
   createBookingAPIResponse: any;
 
