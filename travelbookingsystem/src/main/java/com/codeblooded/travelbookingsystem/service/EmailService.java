@@ -60,7 +60,7 @@ public class EmailService {
         }
     }
 
-    public void sendBookingConfirmationEmail(String emailAddress, long customerID, long bookingID, long paymentID, long travelPackageID, String departureDate, String bookingStatus) {
+    public void sendBookingConfirmationEmail(String emailAddress, long customerID, long bookingID, String paymentID, long travelPackageID, String departureDate, String bookingStatus) {
         String templateFilePath = "Email-Templates/BookingConfirmationTemplate.html";
         String subject = "Concordia Travel Booking System: Booking Confirmation";
         BookingConfirmationTemplateData bookingConfirmationTemplateData = new BookingConfirmationTemplateData(customerID, bookingID, paymentID, travelPackageID, departureDate, bookingStatus);
@@ -78,7 +78,7 @@ public class EmailService {
         }
     }
 
-    public void sendBookingUpdateEmail(String emailAddress, long customerID, long bookingID, long paymentID, long travelPackageID, String departureDate, String bookingStatus) {
+    public void sendBookingUpdateEmail(String emailAddress, long customerID, long bookingID, String paymentID , long travelPackageID, String departureDate, String bookingStatus) {
         String templateFilePath = "Email-Templates/BookingUpdateTemplate.html";
         String subject = "Concordia Travel Booking System: Booking Confirmation";
         BookingUpdateTemplateData bookingUpdateTemplateData = new BookingUpdateTemplateData(customerID, bookingID, paymentID, travelPackageID, departureDate, bookingStatus);
@@ -112,13 +112,13 @@ public class EmailService {
     private static class BookingConfirmationTemplateData {
         private final long customerID;
         private final long bookingID;
-        private final long paymentID;
+        private final String paymentID;
         private final long travelPackageID;
         private final String departureDate;
         private final String bookingStatus;
 
 
-        private BookingConfirmationTemplateData(long customerID, long bookingID, long paymentID, long travelPackageID, String departureDate, String bookingStatus) {
+        private BookingConfirmationTemplateData(long customerID, long bookingID, String paymentID, long travelPackageID, String departureDate, String bookingStatus) {
             this.customerID = customerID;
             this.bookingID = bookingID;
             this.paymentID = paymentID;
@@ -135,7 +135,7 @@ public class EmailService {
             return bookingID;
         }
 
-        public long getPaymentID() {
+        public String getPaymentID() {
             return paymentID;
         }
 
@@ -155,13 +155,12 @@ public class EmailService {
     private static class BookingUpdateTemplateData {
         private final long customerID;
         private final long bookingID;
-        long paymentID;
+        private final String paymentID;
         private final long travelPackageID;
         private final String departureDate;
-
         private final String bookingStatus;
 
-        private BookingUpdateTemplateData(long customerID, long bookingID, long paymentID, long travelPackageID, String departureDate, String bookingStatus) {
+        private BookingUpdateTemplateData(long customerID, long bookingID, String paymentID, long travelPackageID, String departureDate, String bookingStatus) {
             this.customerID = customerID;
             this.bookingID = bookingID;
             this.paymentID = paymentID;
@@ -177,7 +176,7 @@ public class EmailService {
         public long getBookingID() {
             return bookingID;
         }
-        public long getPaymentID() {
+        public String getPaymentID() {
             return paymentID;
         }
 

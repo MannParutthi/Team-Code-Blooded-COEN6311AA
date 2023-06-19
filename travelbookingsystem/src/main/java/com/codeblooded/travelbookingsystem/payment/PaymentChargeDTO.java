@@ -13,5 +13,4 @@ public class PaymentChargeDTO {
     private Boolean success;
     private String message;
     private String chargeId;
-    private Long bookingId;
 }
