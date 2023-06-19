@@ -18,6 +18,7 @@ public class TravelBookingsController {
 
     @GetMapping("/report")
     public List<TravelBookings> generateReportForBookingsAndRevenueByTravelPackage() {
+        // Call the service to generate a report for bookings and revenue by travel package
         return travelBookingsService.generateReportForBookingsAndRevenueByTravelPackage();
     }
 }

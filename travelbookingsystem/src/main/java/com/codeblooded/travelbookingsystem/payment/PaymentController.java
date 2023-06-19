@@ -23,15 +23,14 @@ public class PaymentController {
     @PostMapping("/createPaymentToken")
     @ResponseBody
     public PaymentTokenDTO createCardToken(@RequestBody PaymentTokenDTO paymentToken) {
+        // Call the payment service to create a payment token for the provided payment information
         return paymentService.createPaymentToken(paymentToken);
     }
 
     @PostMapping("/chargeCard")
     @ResponseBody
     public PaymentChargeDTO makePayment(@RequestBody PaymentChargeDTO paymentCharge) {
+        // Call the payment service to make a payment using the provided payment information
         return paymentService.makePayment(paymentCharge);
-
-        //  ResponseEntity<String>
-//            return ResponseEntity.ok("Payment successful!");
     }
 }

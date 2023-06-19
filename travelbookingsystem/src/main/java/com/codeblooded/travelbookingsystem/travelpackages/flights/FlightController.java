@@ -17,11 +17,22 @@ public class FlightController {
         this.flightRepository = flightRepository;
     }
 
+    /**
+     * Creates a new flight.
+     *
+     * @param flight The flight object to be created.
+     * @return The created flight.
+     */
     @PostMapping("/create")
     public Flight createFlight(@RequestBody Flight flight) {
         return flightRepository.save(flight);
     }
 
+    /**
+     * Retrieves all flights.
+     *
+     * @return A response entity containing all flights.
+     */
     @GetMapping("/all")
     public ResponseEntity<Iterable<Flight>> getAllFlights() {
         Iterable<Flight> flights = flightRepository.findAll();
