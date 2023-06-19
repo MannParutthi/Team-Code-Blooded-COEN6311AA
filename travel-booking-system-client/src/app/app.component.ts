@@ -8,9 +8,11 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   constructor(private _router: Router) {
-    this.loggedUser = localStorage.getItem("user")
-    this.loggedUser = JSON.parse(this.loggedUser)
+    this.loggedUser = localStorage.getItem("user"); // Get user data from local storage
+    this.loggedUser = JSON.parse(this.loggedUser); // Parse the user data from JSON string to object
   }
-  loggedUser: any
-  title = 'travel-booking-system-client';
+
+  loggedUser: any; // Stores the logged-in user data
+
+  title = 'travel-booking-system-client'; // The title of the application
 }

@@ -8,22 +8,22 @@ import { Router } from '@angular/router';
 })
 export class HomePageComponent implements OnInit {
 
+  loggedUser: any; // Variable to store the logged-in user
+
   constructor(private _router: Router) {
-    this.loggedUser = localStorage.getItem("user")
-    this.loggedUser = JSON.parse(this.loggedUser)
+    this.loggedUser = localStorage.getItem("user"); // Retrieve the logged-in user from local storage
+    this.loggedUser = JSON.parse(this.loggedUser); // Parse the logged-in user data
   }
 
-  loggedUser: any
-
   ngOnInit(): void {
-    if (localStorage.getItem("user")==null) {
-      this._router.navigateByUrl('/login')
+    if (localStorage.getItem("user") == null) {
+      this._router.navigateByUrl('/login'); // If no user is found, navigate to the login page
     }
   }
 
   logout() {
-    localStorage.clear()
-    this._router.navigateByUrl('/login')
+    localStorage.clear(); // Clear the user data from local storage
+    this._router.navigateByUrl('/login'); // Navigate to the login page
   }
 
 }
