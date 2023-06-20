@@ -82,7 +82,7 @@ public class EmailService {
      * @param departureDate     The departure date.
      * @param bookingStatus     The booking status.
      */
-    public void sendBookingConfirmationEmail(String emailAddress, long customerID, long bookingID, long paymentID, long travelPackageID, String departureDate, String bookingStatus) {
+    public void sendBookingConfirmationEmail(String emailAddress, long customerID, long bookingID, String paymentID, long travelPackageID, String departureDate, String bookingStatus) {
         String templateFilePath = "Email-Templates/BookingConfirmationTemplate.html";
         String subject = "Concordia Travel Booking System: Booking Confirmation";
         BookingConfirmationTemplateData bookingConfirmationTemplateData = new BookingConfirmationTemplateData(customerID, bookingID, paymentID, travelPackageID, departureDate, bookingStatus);
@@ -111,7 +111,7 @@ public class EmailService {
      * @param departureDate     The departure date.
      * @param bookingStatus     The booking status.
      */
-    public void sendBookingUpdateEmail(String emailAddress, long customerID, long bookingID, long paymentID, long travelPackageID, String departureDate, String bookingStatus) {
+    public void sendBookingUpdateEmail(String emailAddress, long customerID, long bookingID, String paymentID, long travelPackageID, String departureDate, String bookingStatus) {
         String templateFilePath = "Email-Templates/BookingUpdateTemplate.html";
         String subject = "Concordia Travel Booking System: Booking Confirmation";
         BookingUpdateTemplateData bookingUpdateTemplateData = new BookingUpdateTemplateData(customerID, bookingID, paymentID, travelPackageID, departureDate, bookingStatus);
@@ -155,7 +155,7 @@ public class EmailService {
         private final String departureDate;
         private final String bookingStatus;
 
-        private BookingConfirmationTemplateData(long customerID, long bookingID, long paymentID, long travelPackageID, String departureDate, String bookingStatus) {
+        private BookingConfirmationTemplateData(long customerID, long bookingID, String paymentID, long travelPackageID, String departureDate, String bookingStatus) {
             this.customerID = customerID;
             this.bookingID = bookingID;
             this.paymentID = paymentID;
